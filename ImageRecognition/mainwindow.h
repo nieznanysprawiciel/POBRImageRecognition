@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "ImageViewer.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,8 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+
+	ImageViewer*		m_viewer;
 };
 
 #endif // MAINWINDOW_H
