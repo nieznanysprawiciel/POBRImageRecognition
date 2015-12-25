@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QScrollArea>
+#include <QImage>
 
 #include <QString>
 
@@ -11,9 +12,10 @@ class ImageViewer : public QWidget
 {
 	Q_OBJECT
 private:
-	QLabel*			m_imageLabel;
-	QScrollArea*	m_scrollArea;
+	unsigned int	m_width;
+	unsigned int	m_height;
 
+	QImage			m_image;
 
 public:
 	explicit ImageViewer( QWidget *parent = 0 );
