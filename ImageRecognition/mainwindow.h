@@ -9,6 +9,9 @@ namespace Ui {
 class MainWindow;
 }
 
+class ImageProcessor;
+class ProcessingList;
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -21,6 +24,8 @@ private:
 	Ui::MainWindow *ui;
 
 	ImageViewer*		m_viewer;
+
+	ProcessingList*		m_processingList;
 };
 
 #endif // MAINWINDOW_H

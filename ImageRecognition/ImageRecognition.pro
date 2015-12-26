@@ -12,15 +12,18 @@ TARGET = ImageRecognition
 TEMPLATE = app
 
 
+CONFIG += c++11
+
 SOURCES += main.cpp\
         mainwindow.cpp \
-    ImageProcessor.cpp \
     ImageViewer.cpp \
-    ProcessingList.cpp
+    ProcessingList.cpp \
+    Processors/MedianFilter.cpp
 
 HEADERS  += mainwindow.h \
     ImageProcessor.h \
     ImageViewer.h \
-    ProcessingList.h
+    ProcessingList.h \
+    Processors/MedianFilter.h
 
 FORMS    += mainwindow.ui
