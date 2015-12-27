@@ -2,3 +2,4 @@ Intermediate/
 *.pro.user
 Intermediate/Release_MinGW_32bit/
 ProjectRelease/
+*.exp
