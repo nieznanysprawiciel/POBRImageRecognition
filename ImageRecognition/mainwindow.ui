@@ -54,6 +54,19 @@
          </rect>
         </property>
        </widget>
+       <widget class="QPushButton" name="processImage">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>310</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Przetwarzaj</string>
+        </property>
+       </widget>
       </widget>
      </item>
      <item row="0" column="1">
@@ -91,7 +104,19 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuObrazy">
+    <property name="title">
+     <string>Obrazy</string>
+    </property>
+    <addaction name="actionLoad"/>
+   </widget>
+   <addaction name="menuObrazy"/>
   </widget>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Wczytaj</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

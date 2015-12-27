@@ -28,10 +28,9 @@ public:
 	// Funkcje do zarzadzania procesorami
 	bool					AddProcessor	( ImageProcessor* processor, unsigned int listNumber );
 
-signals:
 
-public slots:
 
+	std::vector<ImageProcessor*>&		GetProcessors()	{ return m_processors; }
 };
 
 #endif // PROCESSINGLIST_H

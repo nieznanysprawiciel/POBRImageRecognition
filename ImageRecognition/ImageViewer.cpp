@@ -1,7 +1,7 @@
 #include "ImageViewer.h"
 
 #include <QPainter>
-
+#include "opencv/cv.h"
 
 ImageViewer::ImageViewer(QWidget *parent) :
 	QWidget(parent)
@@ -29,6 +29,13 @@ bool		ImageViewer::OpenFile( const QString& fileName )
 	}
 
 	return false;
+}
+
+void		ImageViewer::SetImage	( cv::Mat image )
+{
+	m_width = image.rows;
+	m_height = image.cols;
+	//m_image = QImage( image.data(), m_width, m_height );
 }
 
 

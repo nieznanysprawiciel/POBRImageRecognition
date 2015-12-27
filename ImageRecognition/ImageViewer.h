@@ -8,6 +8,8 @@
 
 #include <QString>
 
+#include <opencv2/core/core.hpp>
+
 class ImageViewer : public QWidget
 {
 	Q_OBJECT
@@ -21,10 +23,11 @@ public:
 	explicit ImageViewer( QWidget *parent = 0 );
 	~ImageViewer();
 
-	bool		OpenFile( const QString& fileName );
+	bool		OpenFile	( const QString& fileName );
+	void		SetImage	( cv::Mat image );
 
 
-	void		paintEvent( QPaintEvent *event );
+	void		paintEvent	( QPaintEvent *event );
 signals:
 
 public slots:
