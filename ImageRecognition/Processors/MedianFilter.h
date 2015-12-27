@@ -11,7 +11,7 @@ public:
 	MedianFilter();
 	virtual ~MedianFilter();
 
-	virtual void Process() override;
+	virtual void Process( cv::Mat& srcImage, cv::Mat& destImage ) override;
 };
 
 #endif // MEDIANFILTER_H
