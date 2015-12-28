@@ -46,12 +46,12 @@ bool		ImageLogic::LoadImage		( const std::string& fileName )
 	return true;
 }
 
-cv::Mat		ImageLogic::GetSourceImage	()
+cv::Mat&	ImageLogic::GetSourceImage	()
 {
 	return m_sourceImage;
 }
 
-cv::Mat		ImageLogic::GetImage		( unsigned int index )
+cv::Mat&	ImageLogic::GetImage		( unsigned int index )
 {
 	if( index < m_images.size() )
 		return m_images[ index ];

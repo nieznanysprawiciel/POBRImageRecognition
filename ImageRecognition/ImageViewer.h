@@ -18,13 +18,14 @@ private:
 	unsigned int	m_height;
 
 	QImage			m_image;
+	cv::Mat			m_imageCV;
 
 public:
 	explicit ImageViewer( QWidget *parent = 0 );
 	~ImageViewer();
 
 	bool		OpenFile	( const QString& fileName );
-	void		SetImage	( cv::Mat image );
+	void		SetImage	( cv::Mat& image );
 
 
 	void		paintEvent	( QPaintEvent *event );

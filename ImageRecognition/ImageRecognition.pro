@@ -18,6 +18,7 @@ CONFIG += c++11
 INCLUDEPATH += $$(OpenCV)build/include/
 LIBS += $$ROOT_DIR/LibOpenCV/libopencv_core310.dll.a
 LIBS += $$ROOT_DIR/LibOpenCV/libopencv_imgcodecs310.dll.a
+LIBS += $$ROOT_DIR/LibOpenCV/libopencv_imgproc310.dll.a
 
 SOURCES += main.cpp\
         mainwindow.cpp \

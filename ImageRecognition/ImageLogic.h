@@ -24,8 +24,8 @@ public:
 
 	bool		LoadImage		( const std::string& fileName );
 
-	cv::Mat		GetSourceImage	();
-	cv::Mat		GetImage		( unsigned int index );
+	cv::Mat&	GetSourceImage	();
+	cv::Mat&	GetImage		( unsigned int index );
 };
 
 #endif // IMAGELOGIC_H

@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_logic = new ImageLogic;
 	m_processingList = new ProcessingList();
 
-	m_viewer->OpenFile( "pip1.jpg" );
+	//m_viewer->OpenFile( "pip1.jpg" );
 
 	ui->processorsList1->setModel( m_processingList );
 
@@ -68,6 +68,7 @@ void	MainWindow::LoadImage()
 
 	std::string path = filePath.toStdString();
 	m_logic->LoadImage( path );
+	m_viewer->SetImage( m_logic->GetSourceImage() );
 }
 
 
