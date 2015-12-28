@@ -58,6 +58,7 @@ void	MainWindow::InitializeSignals()
 void	MainWindow::Processing()
 {
 	m_logic->ProcessImages( m_processingList );
+	m_viewer->SetImage( m_logic->GetLastImage() );
 }
 
 void	MainWindow::LoadImage()

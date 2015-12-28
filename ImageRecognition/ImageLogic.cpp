@@ -25,10 +25,16 @@ void		ImageLogic::ProcessImages( ProcessingList* list )
 
 void		ImageLogic::AllocateImages	( unsigned int newSize )
 {
-	if( m_images.size() < newSize )
+	if( m_images.size() > newSize )
 		m_images.resize( newSize );
 	else
-		m_images.resize( newSize, cv::Mat( m_sourceImage.rows, m_sourceImage.cols, CV_8UC3 ) );
+	{
+		for( unsigned int i = m_images.size(); i < newSize; ++i )
+		{
+			m_images.push_back( cv::Mat() );
+			m_images[ i ].create( m_sourceImage.rows, m_sourceImage.cols, CV_8UC3 );
+		}
+	}
 }
 
 bool		ImageLogic::LoadImage		( const std::string& fileName )

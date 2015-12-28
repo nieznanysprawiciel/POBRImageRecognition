@@ -26,6 +26,7 @@ public:
 
 	cv::Mat&	GetSourceImage	();
 	cv::Mat&	GetImage		( unsigned int index );
+	cv::Mat&	GetLastImage	()	{ return m_images.back(); }
 };
 
 #endif // IMAGELOGIC_H
