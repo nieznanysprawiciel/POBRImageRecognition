@@ -13,6 +13,8 @@ MedianFilter::~MedianFilter()
 void		MedianFilter::Process( cv::Mat& srcImage, cv::Mat& destImage )
 {
 	CV_Assert( srcImage.depth() != sizeof(uchar) );
+	CV_Assert( srcImage.rows == destImage.rows );
+	CV_Assert( srcImage.cols == destImage.cols );
 
 	switch( srcImage.channels() )
 	{

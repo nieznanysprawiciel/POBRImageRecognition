@@ -36,6 +36,7 @@ private:
 private slots:
 	void	Processing();
 	void	LoadImage();
+	void	ProcessorCliecked( const QModelIndex& index );
 };
 
 #endif // MAINWINDOW_H

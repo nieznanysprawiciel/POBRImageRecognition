@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     Processors/MedianFilter.cpp \
     Processors/MaskFilterBase.cpp \
     Processors/Helpers.cpp \
-    ImageLogic.cpp
+    ImageLogic.cpp \
+    Processors/ScaleColor.cpp
 
 HEADERS  += mainwindow.h \
     ImageProcessor.h \
@@ -37,6 +38,10 @@ HEADERS  += mainwindow.h \
     Processors/MaskFilterBase.h \
     Processors/Helpers.h \
     ImageLogic.h \
-    Processors/LowPassFilter.h
+    Processors/LowPassFilter.h \
+    Processors/ScaleColor.h \
+    Processors/ExtractRed.h \
+    Processors/ExtractGreen.h \
+    Processors/ExtractBlue.h
 
 FORMS    += mainwindow.ui
