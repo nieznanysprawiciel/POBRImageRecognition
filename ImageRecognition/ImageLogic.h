@@ -15,7 +15,8 @@ class ImageLogic
 {
 private:
 	std::vector< cv::Mat >		m_images;
-	cv::Mat						m_sourceImage;
+
+
 public:
 	ImageLogic();
 

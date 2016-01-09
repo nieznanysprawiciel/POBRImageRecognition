@@ -44,28 +44,34 @@
        <property name="title">
         <string/>
        </property>
-       <widget class="QListView" name="processorsList1">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>50</y>
-          <width>161</width>
-          <height>251</height>
+          <y>11</y>
+          <width>171</width>
+          <height>261</height>
          </rect>
         </property>
-       </widget>
-       <widget class="QPushButton" name="processImage">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>310</y>
-          <width>111</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Przetwarzaj</string>
-        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Etapy przetwarzania</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListView" name="processorsList1"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="processImage">
+           <property name="text">
+            <string>Przetwarzaj</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
      </item>

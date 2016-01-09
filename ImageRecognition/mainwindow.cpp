@@ -8,6 +8,8 @@
 #include "Processors/ExtractBlue.h"
 #include "Processors/ExtractGreen.h"
 #include "Processors/ExtractRed.h"
+#include "Processors/ChannelToGreyScale.h"
+#include "Processors/ConvertToHSL.h"
 
 #include <QFileDialog>
 
@@ -29,23 +31,34 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-	delete ui;
+	ui->processorsList1->setModel( nullptr );
 
 	delete m_viewer;
 	delete m_processingList;
 	delete m_logic;
+
+	delete ui;
 }
 
 
 void	MainWindow::InitializeProcessingList()
 {
-	ImageProcessor* newProc = new LowPassFilter();
-	m_processingList->AddProcessor( newProc, 0 );
-	m_processingList->AddProcessor( newProc, 0 );
-	m_processingList->AddProcessor( newProc, 0 );
+//	ImageProcessor* newProc1 = new LowPassFilter();
+//	ImageProcessor* newProc2 = new LowPassFilter();
+//	ImageProcessor* newProc3 = new LowPassFilter();
 
-	ImageProcessor* colorFilter = new ExtractRed();
-	m_processingList->AddProcessor( colorFilter, 0 );
+//	m_processingList->AddProcessor( newProc1, 0 );
+//	m_processingList->AddProcessor( newProc2, 0 );
+//	m_processingList->AddProcessor( newProc3, 0 );
+
+//	ImageProcessor* colorFilter = new ExtractRed();
+//	m_processingList->AddProcessor( colorFilter, 0 );
+
+	ImageProcessor* HSL = new ConvertToHSL();
+	m_processingList->AddProcessor( HSL, 0 );
+
+	ImageProcessor* luminanceToGrey = new LuminanceToGreyScale();
+	m_processingList->AddProcessor( luminanceToGrey, 0 );
 }
 
 void	MainWindow::InitializeSignals()

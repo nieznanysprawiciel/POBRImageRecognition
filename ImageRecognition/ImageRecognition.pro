@@ -28,7 +28,12 @@ SOURCES += main.cpp\
     Processors/MaskFilterBase.cpp \
     Processors/Helpers.cpp \
     ImageLogic.cpp \
-    Processors/ScaleColor.cpp
+    Processors/ScaleColor.cpp \
+    Processors/Threshold.cpp \
+    Processors/ChannelToGreyScale.cpp \
+    Processors/ConvertToHSL.cpp \
+    Segmentation/SegmantationLogic.cpp \
+    Segmentation/Segment.cpp
 
 HEADERS  += mainwindow.h \
     ImageProcessor.h \
@@ -42,6 +47,12 @@ HEADERS  += mainwindow.h \
     Processors/ScaleColor.h \
     Processors/ExtractRed.h \
     Processors/ExtractGreen.h \
-    Processors/ExtractBlue.h
+    Processors/ExtractBlue.h \
+    Processors/Threshold.h \
+    Processors/ChannelToGreyScale.h \
+    Processors/FakeProcessor.h \
+    Processors/ConvertToHSL.h \
+    Segmentation/SegmantationLogic.h \
+    Segmentation/Segment.h
 
 FORMS    += mainwindow.ui

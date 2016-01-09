@@ -1,8 +1,12 @@
 #include "ProcessingList.h"
+#include "Processors/FakeProcessor.h"
+
 
 ProcessingList::ProcessingList(QObject *parent) :
 	QAbstractItemModel(parent)
-{}
+{
+	m_processors.push_back( new FakeProcessor );
+}
 
 ProcessingList::~ProcessingList()
 {

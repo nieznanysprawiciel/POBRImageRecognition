@@ -11,7 +11,7 @@ private:
 protected:
 	std::string		m_name;
 public:
-	ImageProcessor( const std::string &name )
+	ImageProcessor( const std::string& name )
 		: m_name( name )	{}
 	virtual ~ImageProcessor() = default;
 
