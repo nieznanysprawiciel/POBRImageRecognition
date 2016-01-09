@@ -25,6 +25,12 @@ struct Pixel
 	unsigned short X;
 	unsigned short Y;
 
+	Pixel( unsigned short x, unsigned short y )
+	{
+		X = x;
+		Y = y;
+	}
+
 	bool operator==( Pixel pix2 )
 	{
 		if( X == pix2.X && Y == pix2.Y )

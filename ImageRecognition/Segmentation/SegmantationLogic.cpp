@@ -5,6 +5,7 @@
 
 SegmantationLogic::SegmantationLogic()
 {
+	m_samplesDensity = 15;
 }
 
 
@@ -18,7 +19,23 @@ void		SegmantationLogic::ClearSegments()
 
 void		SegmantationLogic::MakeSegmentation( cv::Mat& srcImage )
 {
+	cv::Mat_<cv::Vec3b> source = srcImage;
+	for( int j = m_samplesDensity / 2; j < srcImage.cols; j += m_samplesDensity )
+	{
+		for ( int i = m_samplesDensity / 2; i < srcImage.rows; i += m_samplesDensity )
+		{
+			cv::Vec3b color = source( i ,j );
+			Pixel seedPixel( i, j );
 
+			if( !IsObject( color ) )
+				continue;
+			if( CheckInSegments( seedPixel ) )
+				continue;
+
+			Segment* newSegment = BuildSegment( seedPixel, source );
+			m_segments.push_back( newSegment );
+		}
+	}
 }
 
 
@@ -43,4 +60,16 @@ bool		SegmantationLogic::CheckInBoundingBox	( Pixel pixel, BoundingBox& box )
 	&&	pixel.Y <= box.maxY && pixel.Y >= box.minY )
 		return true;
 	return false;
+}
+
+bool		SegmantationLogic::IsObject	( cv::Vec3b color )
+{
+	if( color == cv::Vec3b( 1,1,1) )
+		return true;
+	return false;
+}
+
+Segment*	SegmantationLogic::BuildSegment		( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage )
+{
+
 }

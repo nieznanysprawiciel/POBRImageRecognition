@@ -26,9 +26,9 @@ void ScaleColor::Process( cv::Mat& srcImage, cv::Mat& destImage )
 		cv::Mat_<cv::Vec3b> source = srcImage;
 		cv::Mat_<cv::Vec3b> destination = destImage;
 
-		for (int i = 0; i < srcImage.rows; ++i)
+		for (int j = 0; j < srcImage.cols; ++j)
 		{
-			for (int j = 0; j < srcImage.cols; ++j)
+			for (int i = 0; i < srcImage.rows; ++i)
 				destination( i, j ) = Scale( source, i, j );
 		}
 
