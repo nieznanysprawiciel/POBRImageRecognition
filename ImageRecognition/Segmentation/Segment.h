@@ -18,6 +18,23 @@ struct BoundingBox
 		maxX = std::numeric_limits<unsigned short>::min();
 		maxY = std::numeric_limits<unsigned short>::min();
 	}
+
+	void TryUpdateMinMaxX( unsigned short row )
+	{
+		if( row < minX )
+			minX = row;
+		if( row > maxX )
+			maxX = row;
+	}
+
+	void TryUpdateMinMaxY( unsigned short row )
+	{
+		if( row < minY )
+			minY = row;
+		if( row > maxY )
+			maxY = row;
+	}
+
 };
 
 struct Pixel
