@@ -63,3 +63,9 @@ cv::Mat&	ImageLogic::GetImage		( unsigned int index )
 	return m_images[ 0 ];		/// ??
 }
 
+cv::Mat&	ImageLogic::GetSegmentsImage()
+{
+	auto& lastImage = GetLastImage();
+	m_segmentsImage = lastImage.clone();
+	return m_segmentsImage;
+}

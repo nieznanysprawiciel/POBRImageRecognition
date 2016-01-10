@@ -13,6 +13,7 @@ class MainWindow;
 class ImageProcessor;
 class ProcessingList;
 class ImageLogic;
+class SegmentationLogic;
 
 class MainWindow : public QMainWindow
 {
@@ -32,9 +33,11 @@ private:
 
 	ProcessingList*		m_processingList;
 	ImageLogic*			m_logic;
+	SegmentationLogic*	m_segmentLogic;
 
 private slots:
 	void	Processing();
+	void	Segmentation();
 	void	LoadImage();
 	void	ProcessorCliecked( const QModelIndex& index );
 };

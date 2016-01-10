@@ -3,6 +3,7 @@
 
 #include "ProcessingList.h"
 #include "ImageLogic.h"
+#include "Segmentation/SegmantationLogic.h"
 #include "Processors/MedianFilter.h"
 #include "Processors/LowPassFilter.h"
 #include "Processors/ExtractBlue.h"
@@ -21,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	m_viewer = new ImageViewer( ui->viewerScrollArea );
 	m_logic = new ImageLogic;
-	m_processingList = new ProcessingList();
+	m_processingList = new ProcessingList;
+	m_segmentLogic = new SegmentationLogic;
 
 	ui->processorsList1->setModel( m_processingList );
 
@@ -33,6 +35,7 @@ MainWindow::~MainWindow()
 {
 	ui->processorsList1->setModel( nullptr );
 
+	delete m_segmentLogic;
 	delete m_viewer;
 	delete m_processingList;
 	delete m_logic;
@@ -54,16 +57,17 @@ void	MainWindow::InitializeProcessingList()
 //	ImageProcessor* colorFilter = new ExtractRed();
 //	m_processingList->AddProcessor( colorFilter, 0 );
 
-	ImageProcessor* HSL = new ConvertToHSL();
-	m_processingList->AddProcessor( HSL, 0 );
+//	ImageProcessor* HSL = new ConvertToHSL();
+//	m_processingList->AddProcessor( HSL, 0 );
 
-	ImageProcessor* luminanceToGrey = new LuminanceToGreyScale();
-	m_processingList->AddProcessor( luminanceToGrey, 0 );
+//	ImageProcessor* luminanceToGrey = new LuminanceToGreyScale();
+//	m_processingList->AddProcessor( luminanceToGrey, 0 );
 }
 
 void	MainWindow::InitializeSignals()
 {
 	connect( ui->processImage, SIGNAL( clicked() ), this, SLOT( Processing() ) );
+	connect( ui->segmentationButton, SIGNAL( clicked() ), this, SLOT( Segmentation() ) );
 	connect( ui->actionLoad, SIGNAL( triggered() ), this, SLOT( LoadImage() ) );
 	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked(QModelIndex) ) );
 }
@@ -73,6 +77,13 @@ void	MainWindow::Processing()
 {
 	m_logic->ProcessImages( m_processingList );
 	m_viewer->SetImage( m_logic->GetLastImage() );
+}
+
+void	MainWindow::Segmentation()
+{
+	auto& image = m_logic->GetSegmentsImage();
+	m_segmentLogic->MakeSegmentation( image );
+	m_viewer->SetImage( image );
 }
 
 void	MainWindow::LoadImage()

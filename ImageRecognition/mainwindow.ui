@@ -44,7 +44,7 @@
        <property name="title">
         <string/>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -68,6 +68,13 @@
           <widget class="QPushButton" name="processImage">
            <property name="text">
             <string>Przetwarzaj</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="segmentationButton">
+           <property name="text">
+            <string>Segmentacja</string>
            </property>
           </widget>
          </item>

@@ -15,7 +15,7 @@ class ImageLogic
 {
 private:
 	std::vector< cv::Mat >		m_images;
-
+	cv::Mat						m_segmentsImage;
 
 public:
 	ImageLogic();
@@ -28,6 +28,7 @@ public:
 	cv::Mat&	GetSourceImage	();
 	cv::Mat&	GetImage		( unsigned int index );
 	cv::Mat&	GetLastImage	()	{ return m_images.back(); }
+	cv::Mat&	GetSegmentsImage();
 };
 
 #endif // IMAGELOGIC_H
