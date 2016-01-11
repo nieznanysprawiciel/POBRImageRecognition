@@ -132,6 +132,7 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 	boundingBox.TryUpdateMinMaxX( rightPix );
 
 	linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_UP, DIRECTION_UP ) );
+	//linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_DOWN, DIRECTION_DOWN ) );
 
 	while( !linesToFill.empty() )
 	{
@@ -220,7 +221,7 @@ unsigned short SegmentationLogic::FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3
 		if( pixX > maxX )
 			return maxX + 1;
 	}
-	return --pixX;
+	return pixX;
 }
 
 
