@@ -13,7 +13,10 @@ bool		SegmentationLogic::IsObject	( cv::Vec3b color )
 SegmentationLogic::SegmentationLogic()
 {
 	m_samplesDensity = 15;
-	m_fillColor = cv::Vec3b( 255, 0, 255 );
+	m_fillColor[ 0 ] = 255;
+	m_fillColor[ 1 ] = 0;
+	m_fillColor[ 2 ] = 255;
+
 }
 
 SegmentationLogic::~SegmentationLogic()
@@ -87,7 +90,7 @@ Segment*	SegmentationLogic::BuildSegment		( Pixel seedPixel, cv::Mat_<cv::Vec3b>
 	regionPixels.reserve( 400 );		// Rezeruwjemy pamięć, bo regiony będą raczej dużo zajmować.
 
 	// W przyszłości trzeba wylosować kolor za każdym razem lub wybrac z palety
-	m_fillColor = cv::Vec3b( 0, 0, 1 );
+	//m_fillColor = cv::Vec3b( 0, 0, 1 );
 
 	FloodFill( seedPixel, srcImage, newSegment );
 
