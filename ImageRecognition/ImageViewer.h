@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QImage>
+#include <QRect>
 
 #include <QString>
 
@@ -17,6 +18,9 @@ private:
 	unsigned int	m_width;
 	unsigned int	m_height;
 
+	bool			m_drawBoundingBox;
+	QRect			m_rectToDraw;
+
 	QImage			m_image;
 	cv::Mat			m_imageCV;
 
@@ -26,6 +30,9 @@ public:
 
 	bool		OpenFile	( const QString& fileName );
 	void		SetImage	( cv::Mat& image );
+
+	void		SetBoundingRect		( QRect newRect );
+	void		UnsetRect			();
 
 
 	void		paintEvent	( QPaintEvent *event );

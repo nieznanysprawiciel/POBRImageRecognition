@@ -10,6 +10,9 @@ ImageViewer::ImageViewer(QWidget *parent) :
 	m_width = 1000;
 	m_height = 800;
 	resize( m_width, m_height );
+
+	m_drawBoundingBox = false;
+	m_rectToDraw  = QRect( 50, 50, 150, 150 );
 }
 
 ImageViewer::~ImageViewer()
@@ -43,6 +46,17 @@ void		ImageViewer::SetImage	( cv::Mat& image )
 	repaint();
 }
 
+void		ImageViewer::SetBoundingRect		( QRect newRect )
+{
+	m_drawBoundingBox = true;
+	m_rectToDraw = newRect;
+}
+
+void		ImageViewer::UnsetRect			()
+{
+	m_drawBoundingBox = false;
+}
+
 
 void		ImageViewer::paintEvent(QPaintEvent* event)
 {
@@ -51,6 +65,15 @@ void		ImageViewer::paintEvent(QPaintEvent* event)
 
 	QRect copyRect( 0, 0, m_width, m_height );
 	painter.drawImage( copyRect, m_image );
+
+	if( m_drawBoundingBox )
+	{
+		painter.setOpacity( 0.5 );
+		painter.fillRect( m_rectToDraw, QColor( 0, 255, 0 ) );
+		painter.setOpacity( 1.0 );
+		painter.setPen( QColor( 0, 255, 0 ) );
+		painter.drawRect( m_rectToDraw );
+	}
 }
 
 
