@@ -4,6 +4,7 @@
 #include "opencv2/core/core.hpp"
 #include "Segment.h"
 #include <vector>
+#include <QStringListModel>
 
 
 class SegmentationLogic
@@ -14,6 +15,8 @@ private:
 
 	std::vector<Segment*>		m_segments;
 
+	QStringListModel			m_segmentsModel;
+
 public:
 	SegmentationLogic();
 	virtual ~SegmentationLogic();
@@ -22,6 +25,8 @@ public:
 	void						ClearSegments();
 
 	virtual void				MakeSegmentation	( cv::Mat& image );
+
+	QStringListModel*			GetSegmentsModel	()	{ return &m_segmentsModel; }
 
 private:
 	bool						CheckInSegments		( Pixel pixel );

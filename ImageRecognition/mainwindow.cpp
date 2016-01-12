@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 	ui->processorsList1->setModel( nullptr );
+	ui->segmentsList->setModel( m_segmentLogic->GetSegmentsModel() );
 
 	delete m_segmentLogic;
 	delete m_viewer;
@@ -84,6 +85,8 @@ void	MainWindow::Segmentation()
 	auto& image = m_logic->GetSegmentsImage();
 	m_segmentLogic->MakeSegmentation( image );
 	m_viewer->SetImage( image );
+
+	ui->segmentsList->setModel( m_segmentLogic->GetSegmentsModel() );
 }
 
 void	MainWindow::LoadImage()

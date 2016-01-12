@@ -42,7 +42,8 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 {
 	ClearSegments();
 	cv::Mat_<cv::Vec3b> source = image;
-	int fillColorNum = 0;
+	int segmentNum = 0;
+	QStringList newSegmentsList;
 
 	for( int y = m_samplesDensity / 2; y < image.rows; y += m_samplesDensity )
 	{
@@ -56,12 +57,15 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 			if( CheckInSegments( seedPixel ) )
 				continue;
 
-			m_fillColor = predefinedColors[ fillColorNum++ % NUM_PREDEFINED_COLORS ];
+			newSegmentsList.append( "Segment" + QString::number( segmentNum ) );
+			m_fillColor = predefinedColors[ segmentNum++ % NUM_PREDEFINED_COLORS ];
 
 			Segment* newSegment = BuildSegment( seedPixel, source );
 			m_segments.push_back( newSegment );
 		}
 	}
+
+	m_segmentsModel.setStringList( newSegmentsList );
 
 //	// Test
 //	Pixel seedPixel( 485, 452 );
