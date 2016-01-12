@@ -1,21 +1,26 @@
 #include "SegmantationLogic.h"
 
 
+#define NUM_PREDEFINED_COLORS 30
+cv::Vec3b predefinedColors[ NUM_PREDEFINED_COLORS ];
 
-bool		SegmentationLogic::IsObject	( cv::Vec3b color )
-{
-	if( color == cv::Vec3b( 255, 255, 255 ) )
-		return true;
-	return false;
-}
+
 
 
 SegmentationLogic::SegmentationLogic()
 {
 	m_samplesDensity = 15;
-	m_fillColor[ 0 ] = 255;
-	m_fillColor[ 1 ] = 0;
-	m_fillColor[ 2 ] = 255;
+
+	int R = 0;
+	int G = 100;
+	int B = 200;
+	for( auto& color : predefinedColors )
+	{
+		color = cv::Vec3b( B, G, R );
+		R = ( R + 73 ) % 255;
+		G = ( G + 213 ) % 255;
+		B = ( B + 23 ) % 255;
+	}
 
 }
 
@@ -37,6 +42,7 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 {
 	ClearSegments();
 	cv::Mat_<cv::Vec3b> source = image;
+	int fillColorNum = 0;
 
 	for( int y = m_samplesDensity / 2; y < image.rows; y += m_samplesDensity )
 	{
@@ -49,6 +55,8 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 				continue;
 			if( CheckInSegments( seedPixel ) )
 				continue;
+
+			m_fillColor = predefinedColors[ fillColorNum++ % NUM_PREDEFINED_COLORS ];
 
 			Segment* newSegment = BuildSegment( seedPixel, source );
 			m_segments.push_back( newSegment );
@@ -89,6 +97,13 @@ bool		SegmentationLogic::CheckInBoundingBox	( Pixel pixel, BoundingBox& box )
 	return false;
 }
 
+bool		SegmentationLogic::IsObject	( cv::Vec3b color )
+{
+	if( color == cv::Vec3b( 255, 255, 255 ) )
+		return true;
+	return false;
+}
+
 
 
 Segment*	SegmentationLogic::BuildSegment		( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage )
@@ -97,9 +112,6 @@ Segment*	SegmentationLogic::BuildSegment		( Pixel seedPixel, cv::Mat_<cv::Vec3b>
 
 	auto& regionPixels = newSegment->GetRegion();
 	regionPixels.reserve( 400 );		// Rezeruwjemy pamięć, bo regiony będą raczej dużo zajmować.
-
-	// W przyszłości trzeba wylosować kolor za każdym razem lub wybrac z palety
-	//m_fillColor = cv::Vec3b( 0, 0, 1 );
 
 	FloodFill( seedPixel, srcImage, newSegment );
 
