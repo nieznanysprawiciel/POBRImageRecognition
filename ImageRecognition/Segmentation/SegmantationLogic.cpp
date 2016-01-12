@@ -55,8 +55,8 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 		}
 	}
 
-	// Test
-//	Pixel seedPixel( 612, 153 );
+//	// Test
+//	Pixel seedPixel( 509, 374 );
 //	Segment* newSegment = BuildSegment( seedPixel, source );
 //	m_segments.push_back( newSegment );
 
@@ -140,8 +140,9 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 	boundingBox.TryUpdateMinMaxX( leftPix );
 	boundingBox.TryUpdateMinMaxX( rightPix );
 
-	linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_UP, DIRECTION_UP ) );
 	linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_DOWN, DIRECTION_DOWN ) );
+	linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_UP, DIRECTION_UP ) );
+
 
 	while( !linesToFill.empty() )
 	{
@@ -163,12 +164,13 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 
 		do
 		{
-			leftPix = ExtendLeft( Pixel( leftPix, pixY ), srcImage, segment );
-			rightPix = ExtendRight( Pixel( leftPix, pixY ), srcImage, segment );
-			linesToFill.push( PixelSpan( leftPix, rightPix, pixY + currentLine.direction, currentLine.direction ) );
+			auto prevLeftPix = leftPix;
+			leftPix = ExtendLeft( Pixel( prevLeftPix, pixY ), srcImage, segment );
+			rightPix = ExtendRight( Pixel( prevLeftPix, pixY ), srcImage, segment );
 
 			if( leftPix < currentLine.leftPixelX || rightPix > currentLine.rightPixelX )
 				linesToFill.push( PixelSpan( leftPix, rightPix, pixY - currentLine.direction, -currentLine.direction ) );
+			linesToFill.push( PixelSpan( leftPix, rightPix, pixY + currentLine.direction, currentLine.direction ) );
 
 			boundingBox.TryUpdateMinMaxX( leftPix );
 			boundingBox.TryUpdateMinMaxX( rightPix );
