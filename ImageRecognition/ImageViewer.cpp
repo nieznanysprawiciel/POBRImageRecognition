@@ -46,15 +46,17 @@ void		ImageViewer::SetImage	( cv::Mat& image )
 	repaint();
 }
 
-void		ImageViewer::SetBoundingRect		( QRect newRect )
+void		ImageViewer::SetBoundingRect		(  BoundingBox& box )
 {
 	m_drawBoundingBox = true;
-	m_rectToDraw = newRect;
+	m_rectToDraw = QRect( box.minX, box.minY, box.maxX - box.minX, box.maxY - box.minY );
+	this->repaint();
 }
 
 void		ImageViewer::UnsetRect			()
 {
 	m_drawBoundingBox = false;
+	this->repaint();
 }
 
 
@@ -74,6 +76,11 @@ void		ImageViewer::paintEvent(QPaintEvent* event)
 		painter.setPen( QColor( 0, 255, 0 ) );
 		painter.drawRect( m_rectToDraw );
 	}
+}
+
+void		ImageViewer::Repaint	()
+{
+	this->Repaint();
 }
 
 

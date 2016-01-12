@@ -40,6 +40,7 @@ private slots:
 	void	Segmentation();
 	void	LoadImage();
 	void	ProcessorCliecked( const QModelIndex& index );
+	void	SegmentClicked( const QModelIndex& index );
 };
 
 #endif // MAINWINDOW_H

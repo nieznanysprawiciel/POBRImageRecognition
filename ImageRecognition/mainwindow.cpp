@@ -71,6 +71,7 @@ void	MainWindow::InitializeSignals()
 	connect( ui->segmentationButton, SIGNAL( clicked() ), this, SLOT( Segmentation() ) );
 	connect( ui->actionLoad, SIGNAL( triggered() ), this, SLOT( LoadImage() ) );
 	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked(QModelIndex) ) );
+	connect( ui->segmentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked(QModelIndex) ) );
 }
 
 
@@ -102,6 +103,15 @@ void	MainWindow::ProcessorCliecked( const QModelIndex& index )
 {
 	auto& image = m_logic->GetImage( index.row() );
 	m_viewer->SetImage( image );
+}
+
+void	MainWindow::SegmentClicked( const QModelIndex& index )
+{
+	auto& segmentsVec = m_segmentLogic->GetSegments();
+	auto& segment = segmentsVec[ index.row() ];
+	auto& boundingBox = segment->GetBoundingBox();
+
+	m_viewer->SetBoundingRect( boundingBox );
 }
 
 

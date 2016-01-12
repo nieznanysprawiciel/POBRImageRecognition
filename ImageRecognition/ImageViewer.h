@@ -8,6 +8,7 @@
 #include <QRect>
 
 #include <QString>
+#include "Segmentation/Segment.h"
 
 #include <opencv2/core/core.hpp>
 
@@ -30,8 +31,9 @@ public:
 
 	bool		OpenFile	( const QString& fileName );
 	void		SetImage	( cv::Mat& image );
+	void		Repaint	();
 
-	void		SetBoundingRect		( QRect newRect );
+	void		SetBoundingRect		( BoundingBox& box );
 	void		UnsetRect			();
 
 
