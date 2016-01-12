@@ -97,6 +97,7 @@ void	MainWindow::LoadImage()
 	std::string path = filePath.toStdString();
 	m_logic->LoadImage( path );
 	m_viewer->SetImage( m_logic->GetSourceImage() );
+	m_viewer->UnsetRect();
 }
 
 void	MainWindow::ProcessorCliecked( const QModelIndex& index )

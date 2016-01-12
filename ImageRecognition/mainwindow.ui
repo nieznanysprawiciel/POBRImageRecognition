@@ -89,6 +89,9 @@
           <height>231</height>
          </rect>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::DoubleClicked</set>
+        </property>
        </widget>
        <widget class="QLabel" name="label_2">
         <property name="geometry">
