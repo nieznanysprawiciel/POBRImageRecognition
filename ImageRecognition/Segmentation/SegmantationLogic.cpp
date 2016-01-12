@@ -54,6 +54,15 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 			m_segments.push_back( newSegment );
 		}
 	}
+
+	// Test
+//	Pixel seedPixel( 612, 153 );
+//	Segment* newSegment = BuildSegment( seedPixel, source );
+//	m_segments.push_back( newSegment );
+
+//	seedPixel = Pixel( 542, 485 );
+//	newSegment = BuildSegment( seedPixel, source );
+//	m_segments.push_back( newSegment );
 }
 
 
@@ -132,7 +141,7 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 	boundingBox.TryUpdateMinMaxX( rightPix );
 
 	linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_UP, DIRECTION_UP ) );
-	//linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_DOWN, DIRECTION_DOWN ) );
+	linesToFill.push( PixelSpan( leftPix, rightPix, seedPixel.Y + DIRECTION_DOWN, DIRECTION_DOWN ) );
 
 	while( !linesToFill.empty() )
 	{
@@ -193,8 +202,8 @@ unsigned short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec
 {
 	auto& regionPixels = segment->GetRegion();
 
-	unsigned short pixX = seedPixel.X + 1;	// Idąc  prawą zawsze pomijamy pierwszy element
-	if( pixX > srcImage.rows )
+	unsigned short pixX = seedPixel.X + 1;	// Idąc w prawą zawsze pomijamy pierwszy element
+	if( pixX > srcImage.cols )
 		return --pixX;
 
 	while( IsObject( srcImage( seedPixel.Y, pixX ) ) )
