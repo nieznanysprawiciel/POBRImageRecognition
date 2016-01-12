@@ -56,7 +56,7 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 	}
 
 //	// Test
-//	Pixel seedPixel( 509, 374 );
+//	Pixel seedPixel( 485, 452 );
 //	Segment* newSegment = BuildSegment( seedPixel, source );
 //	m_segments.push_back( newSegment );
 
@@ -217,7 +217,7 @@ unsigned short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec
 		if( pixX > srcImage.cols )
 			continue;
 	}
-	return --pixX;
+	return pixX;
 }
 
 unsigned short SegmentationLogic::FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3b>& srcImage, unsigned short maxX )
