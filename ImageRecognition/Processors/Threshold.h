@@ -23,4 +23,15 @@ public:
 	virtual void Process( cv::Mat& srcImage, cv::Mat& destImage ) override;
 };
 
+
+class HueThreshold : public Threshold
+{
+private:
+public:
+	HueThreshold( unsigned char min, unsigned char max )
+	: Threshold( "Progowanie barwy HSL", 255, 0, 255, 0, max, min )
+	{}
+
+};
+
 #endif // THRESHOLD_H

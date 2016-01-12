@@ -11,6 +11,7 @@
 #include "Processors/ExtractRed.h"
 #include "Processors/ChannelToGreyScale.h"
 #include "Processors/ConvertToHSL.h"
+#include "Processors/Threshold.h"
 
 #include <QFileDialog>
 
@@ -58,11 +59,20 @@ void	MainWindow::InitializeProcessingList()
 //	ImageProcessor* colorFilter = new ExtractRed();
 //	m_processingList->AddProcessor( colorFilter, 0 );
 
-//	ImageProcessor* HSL = new ConvertToHSL();
-//	m_processingList->AddProcessor( HSL, 0 );
+	ImageProcessor* HSL = new ConvertToHSL();
+	m_processingList->AddProcessor( HSL, 0 );
+
+	ImageProcessor* hueToGrey = new HueToGreyScale();
+	m_processingList->AddProcessor( hueToGrey, 0 );
 
 //	ImageProcessor* luminanceToGrey = new LuminanceToGreyScale();
 //	m_processingList->AddProcessor( luminanceToGrey, 0 );
+
+//	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
+//	m_processingList->AddProcessor( saturationToGrey, 0 );
+
+	ImageProcessor* hueThreshold = new HueThreshold( 20, 40 );
+	m_processingList->AddProcessor( hueThreshold, 0 );
 }
 
 void	MainWindow::InitializeSignals()

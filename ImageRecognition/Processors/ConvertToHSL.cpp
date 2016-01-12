@@ -1,5 +1,6 @@
 #include "ConvertToHSL.h"
 #include "Helpers.h"
+#include <math.h>
 
 
 ConvertToHSL::ConvertToHSL()
@@ -62,6 +63,16 @@ cv::Vec3b orderColors( cv::Vec3b color )
 	return order;
 }
 
+float max3( float val1, float val2, float val3 )
+{
+	return std::max( val1, std::max( val2, val3 ) );
+}
+
+float min3( float val1, float val2, float val3 )
+{
+	return std::min( val1, std::min( val2, val3 ) );
+}
+
 #define RED 2
 #define GREEN 1
 #define BLUE 0
@@ -69,12 +80,19 @@ cv::Vec3b orderColors( cv::Vec3b color )
 cv::Vec3b		ConvertToHSL::ToHSL( cv::Mat_<cv::Vec3b>& image, int i, int j )
 {
 	cv::Vec3b lastValue = image(i, j);
-	cv::Vec3f color( lastValue[ 0 ] / 255.0, lastValue[ 1 ] / 255.0, lastValue[ 2 ] / 255.0  );
-	cv::Vec3b order = orderColors( lastValue );
+	cv::Vec3f color( lastValue[ 0 ] / 255.0f, lastValue[ 1 ] / 255.0f, lastValue[ 2 ] / 255.0f  );
+	//cv::Vec3b order = orderColors( lastValue );
 
 
-	float max = color[ order[ 0 ] ];
-	float min = color[ order[ 2 ] ];
+	float max = max3( color[ 0 ], color[ 1 ], color[ 2 ] );		//color[ order[ 0 ] ];
+	float min = min3( color[ 0 ], color[ 1 ], color[ 2 ] );		//color[ order[ 2 ] ];
+
+	int maxColor = RED;
+	if( max == color[ 0 ] )
+		maxColor = BLUE;
+	else if( max == color[ 1 ] )
+		maxColor = GREEN;
+
 
 	float luminance = ( min + max ) / 2;
 	float hue = 0.0f;
@@ -90,18 +108,18 @@ cv::Vec3b		ConvertToHSL::ToHSL( cv::Mat_<cv::Vec3b>& image, int i, int j )
 
 
 		// Maksymalną wartością jest kanała czerwony
-		if( order[ 0 ] == RED )
-			hue = ( color[ GREEN ] - color[ BLUE ] )/ maxMinusMin;
+		if( maxColor == RED )
+			hue = ( color[ GREEN ] - color[ BLUE ] ) / maxMinusMin;
 		// Maksymalną wartością jest kanała zielony
-		else if( order[ 0 ] == GREEN )
-			hue = 2.0f + ( color[ BLUE ] - color[ RED ] )/ maxMinusMin;
+		else if( maxColor == GREEN )
+			hue = 2.0f + ( color[ BLUE ] - color[ RED ] ) / maxMinusMin;
 		// Maksymalną wartością jest kanała niebieski
 		else
-			hue = 4.0f + ( color[ RED ] - color[ GREEN ] )/ maxMinusMin;
+			hue = 4.0f + ( color[ RED ] - color[ GREEN ] ) / maxMinusMin;
 
-		hue = hue / 60.0f ;	// Skalowanie do [ 0, 1 ]
+		hue = hue / 6.0f ;	// Skalowanie do [ 0, 1 ]
 		if( hue < 0 )
-			hue += 1.0f;
+			hue += 6.0f;
 	}
 	// else saturation = 0, hue = 0
 

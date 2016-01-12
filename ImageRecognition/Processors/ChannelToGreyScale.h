@@ -64,7 +64,7 @@ class SaturationToGreyScale : public ChannelToGreyScale
 private:
 public:
 	SaturationToGreyScale()
-	: ChannelToGreyScale( "Kanał nasycienia -> skala szarości", ColorChannel::GreeenChannel ) {}
+	: ChannelToGreyScale( "Kanał nasycenia -> skala szarości", ColorChannel::GreeenChannel ) {}
 
 };
 
