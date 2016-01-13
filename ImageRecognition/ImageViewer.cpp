@@ -7,8 +7,8 @@
 ImageViewer::ImageViewer(QWidget *parent) :
 	QWidget(parent)
 {
-	m_width = 1000;
-	m_height = 800;
+	m_width = 1900;
+	m_height = 1000;
 	resize( m_width, m_height );
 
 	m_drawBoundingBox = false;
