@@ -132,12 +132,12 @@ Segment*	SegmentationLogic::BuildSegment		( Pixel seedPixel, cv::Mat_<cv::Vec3b>
 
 struct PixelSpan
 {
-	unsigned short		leftPixelX;
-	unsigned short		rightPixelX;
-	unsigned short		pixelsY;
+	short		leftPixelX;
+	short		rightPixelX;
+	short		pixelsY;
 	char				direction;
 
-	PixelSpan( unsigned short left, unsigned short right, unsigned short pixY, char dir )
+	PixelSpan( short left, short right, short pixY, char dir )
 	{
 		leftPixelX = left;
 		rightPixelX = right;
@@ -151,8 +151,8 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 	auto& boundingBox = segment->GetBoundingBox();
 	std::queue<PixelSpan>	linesToFill;
 
-	unsigned short leftPix = ExtendLeft( seedPixel, srcImage, segment );
-	unsigned short rightPix = ExtendRight( seedPixel, srcImage, segment );
+	short leftPix = ExtendLeft( seedPixel, srcImage, segment );
+	short rightPix = ExtendRight( seedPixel, srcImage, segment );
 	boundingBox.TryUpdateMinMaxX( leftPix );
 	boundingBox.TryUpdateMinMaxX( rightPix );
 
@@ -162,10 +162,15 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 
 	while( !linesToFill.empty() )
 	{
-		auto& currentLine = linesToFill.front();
+		auto currentLine = linesToFill.front();
+		linesToFill.pop();
+
 		leftPix = currentLine.leftPixelX;
 		rightPix = currentLine.rightPixelX;
-		unsigned short pixY = currentLine.pixelsY;
+		short pixY = currentLine.pixelsY;
+
+		if( pixY < 0 )
+			continue;
 
 		boundingBox.TryUpdateMinMaxY( pixY );
 
@@ -173,10 +178,7 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 		if( !IsObject( leftColor ) )
 			leftPix = FindNextSpan( Pixel( leftPix, pixY ), srcImage, currentLine.rightPixelX );
 		if( leftPix >= currentLine.rightPixelX )
-		{
-			linesToFill.pop();
 			continue;
-		}
 
 		do
 		{
@@ -192,14 +194,11 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 			boundingBox.TryUpdateMinMaxX( rightPix );
 
 		} while( FindNextSpan( Pixel( rightPix, pixY ), srcImage, currentLine.rightPixelX ) <= currentLine.rightPixelX );
-
-
-		linesToFill.pop();
 	}
 }
 
 
-unsigned short SegmentationLogic::ExtendLeft( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment )
+short SegmentationLogic::ExtendLeft( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment )
 {
 	auto& regionPixels = segment->GetRegion();
 	int pixX = seedPixel.X;
@@ -216,7 +215,7 @@ unsigned short SegmentationLogic::ExtendLeft( Pixel seedPixel, cv::Mat_<cv::Vec3
 	return ++pixX;
 }
 
-unsigned short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment )
+short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment )
 {
 	auto& regionPixels = segment->GetRegion();
 
@@ -236,7 +235,7 @@ unsigned short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec
 	return pixX;
 }
 
-unsigned short SegmentationLogic::FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3b>& srcImage, unsigned short maxX )
+short SegmentationLogic::FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3b>& srcImage, short maxX )
 {
 	unsigned short pixX = begin.X + 1;	// Idąc  prawą zawsze pomijamy pierwszy element
 	if( pixX > maxX )

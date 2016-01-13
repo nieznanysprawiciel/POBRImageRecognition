@@ -36,10 +36,10 @@ private:
 	Segment*					BuildSegment		( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage );
 	void						FloodFill			( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment );
 
-	unsigned short				ExtendLeft			( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment );
-	unsigned short				ExtendRight			( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment );
+	short						ExtendLeft			( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment );
+	short						ExtendRight			( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImage, Segment* segment );
 
-	unsigned short				FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3b>& srcImage, unsigned short maxX );
+	short						FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3b>& srcImage, short maxX );
 };
 
 #endif // SEGMANTATIONLOGIC_H

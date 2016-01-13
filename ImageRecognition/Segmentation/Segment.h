@@ -39,10 +39,10 @@ struct BoundingBox
 
 struct Pixel
 {
-	unsigned short X;
-	unsigned short Y;
+	short X;
+	short Y;
 
-	Pixel( unsigned short x, unsigned short y )
+	Pixel( short x, short y )
 	{
 		X = x;
 		Y = y;
