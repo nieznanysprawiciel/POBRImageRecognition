@@ -126,6 +126,11 @@ void	MainWindow::Segmentation()
 	ui->segmentsList->setModel( m_segmentLogic->GetSegmentsModel() );
 }
 
+void	MainWindow::Moments()
+{
+
+}
+
 void	MainWindow::LoadImage()
 {
 	QString filePath = QFileDialog::getOpenFileName( this, tr("Open File"), "", tr("Images (*.png *.tiff *.jpg)") );

@@ -4,7 +4,7 @@
 #include "opencv2/core/core.hpp"
 
 
-struct CentralMoment
+struct MomentInvariant
 {
 	double M1;
 	double M2;
@@ -27,7 +27,40 @@ struct CentralMoment
 struct Moment
 {
 	double	xy[ MOMENT_X_DIMM ][ MOMENT_Y_DIMM ];
+
+	double M00()	{ return xy[0][0]; }
+	double M10()	{ return xy[1][0]; }
+	double M20()	{ return xy[2][0]; }
+	double M30()	{ return xy[3][0]; }
+
+	double M01()	{ return xy[0][1]; }
+	double M11()	{ return xy[1][1]; }
+	double M21()	{ return xy[2][1]; }
+	double M31()	{ return xy[3][1]; }
+
+	double M02()	{ return xy[0][2]; }
+	double M12()	{ return xy[1][2]; }
+	double M22()	{ return xy[2][2]; }
+	double M32()	{ return xy[3][2]; }
+
+	double M03()	{ return xy[0][3]; }
+	double M13()	{ return xy[1][3]; }
+	double M23()	{ return xy[2][3]; }
+	double M33()	{ return xy[3][3]; }
+
+	void Clear();
 };
 
+
+inline void Moment::Clear()
+{
+	for( int i = 0; i < MOMENT_X_DIMM; ++i )
+	{
+		for( int j = 0; j < MOMENT_Y_DIMM; ++j )
+		{
+			xy[ i ][ j ] = 0.0;
+		}
+	}
+}
 
 #endif // MOMENTDESC_H

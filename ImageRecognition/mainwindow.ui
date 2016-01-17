@@ -78,6 +78,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="momentButton">
+           <property name="text">
+            <string>Liczenie momentów</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QListView" name="segmentsList">
