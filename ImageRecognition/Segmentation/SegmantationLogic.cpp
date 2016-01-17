@@ -57,10 +57,12 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 			if( CheckInSegments( seedPixel ) )
 				continue;
 
+			Segment* newSegment = BuildSegment( seedPixel, source );
+			newSegment->SetSegNummer( segmentNum );
+
 			newSegmentsList.append( "Segment" + QString::number( segmentNum ) );
 			m_fillColor = predefinedColors[ segmentNum++ % NUM_PREDEFINED_COLORS ];
 
-			Segment* newSegment = BuildSegment( seedPixel, source );
 			m_segments.push_back( newSegment );
 		}
 	}

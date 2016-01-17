@@ -71,11 +71,15 @@ class Segment
 private:
 	BoundingBox			m_boundingBox;
 	std::vector<Pixel>	m_region;
+	int					m_segmentNum;
 public:
 	Segment();
 
 	std::vector<Pixel>&		GetRegion()			{ return m_region; }
 	BoundingBox&			GetBoundingBox()	{ return m_boundingBox; }
+	int						GetSegNummer()		{ return m_segmentNum; }
+
+	void					SetSegNummer( int nummer )		{ m_segmentNum = nummer; }
 };
 
 #endif // SEGMENT_H

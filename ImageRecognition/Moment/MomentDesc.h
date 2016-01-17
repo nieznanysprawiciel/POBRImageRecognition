@@ -3,6 +3,7 @@
 
 #include "opencv2/core/core.hpp"
 
+#include <ostream>
 
 struct MomentInvariant
 {
@@ -18,7 +19,24 @@ struct MomentInvariant
 	double M10;
 
 	cv::Vec2i	Center;
+	int			SegmentNum;
+
+	friend std::ostream& operator<<( std::ostream& stream, const MomentInvariant moment );
+	std::ostream& Header( std::ostream& stream );
 };
+
+inline std::ostream& operator<<( std::ostream& stream, const MomentInvariant moment )
+{
+	stream << moment.M1 << ", " << moment.M2 << ", " << moment.M3 << ", " << moment.M4 << ", " << moment.M5 << ", ";
+	stream << moment.M6 << ", " << moment.M7 << ", " << moment.M8 << ", " << moment.M9 << ", " << moment.M10 << std::endl;
+	return stream;
+}
+
+inline std::ostream& MomentInvariant::Header(std::ostream& stream )
+{
+	stream << "M1, M2, M3, M4, M5, M6, M7, M8, M9, M10" << std::endl;
+	return stream;
+}
 
 
 #define MOMENT_X_DIMM 4

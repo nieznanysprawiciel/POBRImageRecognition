@@ -2,4 +2,5 @@
 
 Segment::Segment()
 {
+	m_segmentNum = -1;
 }

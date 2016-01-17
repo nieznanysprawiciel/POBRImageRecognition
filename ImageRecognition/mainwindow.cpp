@@ -12,8 +12,17 @@
 #include "Processors/ChannelToGreyScale.h"
 #include "Processors/ConvertToHSL.h"
 #include "Processors/Threshold.h"
+#include "Moment/MomentCompute.h"
 
 #include <QFileDialog>
+
+
+#include <string>
+#include <fstream>
+
+void MomentsToCSV( const std::string& fileName, std::vector<MomentInvariant>& moments );
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -25,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_logic = new ImageLogic;
 	m_processingList = new ProcessingList;
 	m_segmentLogic = new SegmentationLogic;
+	m_momentCompute = new MomentCompute;
 
 	ui->processorsList1->setModel( m_processingList );
 
@@ -105,9 +115,12 @@ void	MainWindow::InitializeSignals()
 {
 	connect( ui->processImage, SIGNAL( clicked() ), this, SLOT( Processing() ) );
 	connect( ui->segmentationButton, SIGNAL( clicked() ), this, SLOT( Segmentation() ) );
+	connect( ui->momentButton, SIGNAL( clicked() ), this, SLOT( Moments()) );
 	connect( ui->actionLoad, SIGNAL( triggered() ), this, SLOT( LoadImage() ) );
 	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked(QModelIndex) ) );
 	connect( ui->segmentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked(QModelIndex) ) );
+	connect( ui->momentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( MomentClicked(QModelIndex) ) );
+
 }
 
 
@@ -128,7 +141,13 @@ void	MainWindow::Segmentation()
 
 void	MainWindow::Moments()
 {
+	m_momentCompute->ClearMoments();
 
+	auto& segments = m_segmentLogic->GetSegments();
+	m_momentCompute->ComputeMoments( segments );
+	auto model = m_momentCompute->Predict();
+
+	ui->momentsList->setModel( model );
 }
 
 void	MainWindow::LoadImage()
@@ -157,6 +176,41 @@ void	MainWindow::SegmentClicked( const QModelIndex& index )
 
 	auto& image = m_logic->GetSegmentsImage();
 	m_viewer->SetImage( image );
+}
+
+void	MainWindow::MomentClicked( const QModelIndex& index )
+{
+	auto& moments = m_momentCompute->GetRecognized();
+	auto segmentNum = moments[ index.row() ].SegmentNum;
+
+	auto& segmentsVec = m_segmentLogic->GetSegments();
+	auto& segment = segmentsVec[ segmentNum ];
+	auto& boundingBox = segment->GetBoundingBox();
+
+	m_viewer->SetBoundingRect( boundingBox );
+
+	auto& image = m_logic->GetSourceImage();
+	m_viewer->SetImage( image );
+}
+
+
+
+void MomentsToCSV( const std::string& fileName, std::vector<MomentInvariant>& moments )
+{
+	if( moments.size() == 0 )
+		return;
+
+	std::ofstream file( fileName, std::ios_base::app | std::ios_base::ate | std::ios_base::out );
+	if( !file.fail() )
+	{
+		moments[ 0 ].Header( file );
+		for( auto& moment : moments )
+			file << moment;
+
+		// Separate diferent images with empty row
+		file << std::endl;
+	}
+
 }
 
 

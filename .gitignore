@@ -2,5 +2,7 @@ Intermediate/
 *.pro.user
 Intermediate/Release_MinGW_32bit/
 ProjectRelease/images
+ProjectRelease/result
+ProjectRelease/*csv
 ProjectRelease/*.exe
 *.exp

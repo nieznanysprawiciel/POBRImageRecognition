@@ -18,6 +18,7 @@ std::vector<MomentInvariant>&	MomentCompute::ComputeMoments( std::vector<Segment
 	for( auto segment : filteredSegments )
 	{
 		MomentInvariant newMoment = SegmentMoments( segment );
+		newMoment.SegmentNum = segment->GetSegNummer();
 		m_moments.push_back( newMoment );
 	}
 
@@ -25,7 +26,43 @@ std::vector<MomentInvariant>&	MomentCompute::ComputeMoments( std::vector<Segment
 }
 
 
+QStringListModel*			MomentCompute::Predict			()
+{
+	QStringList newSegmentsList;
 
+	for( auto& moment : m_moments )
+	{
+		if( CheckCondition( moment ) )
+		{
+			newSegmentsList.append( QString( "Segment" ) + QString::number( moment.SegmentNum ));
+			m_recognized.push_back( moment );
+		}
+	}
+
+	m_model.setStringList( newSegmentsList );
+	return &m_model;
+}
+
+bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
+{
+	if( moment.M1 > 8.057e-08 )
+	{
+		if( moment.M7 < 0.005576 )
+		{
+			if( moment.M3 >= 0.003014 )
+				return true;
+		}
+	}
+	else
+	{
+		if( moment.M2 > 0.02473 )
+		{
+			if( moment.M3 < 0.0001318 )
+				return true;
+		}
+	}
+	return false;
+}
 
 
 

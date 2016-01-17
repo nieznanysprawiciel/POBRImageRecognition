@@ -6,7 +6,7 @@
 #include "MomentDesc.h"
 
 #include <vector>
-//#include <QStringListModel>
+#include <QStringListModel>
 
 
 
@@ -17,15 +17,23 @@ private:
 	int				m_minHeightFilter;
 
 	std::vector<MomentInvariant>		m_moments;
+	std::vector<MomentInvariant>		m_recognized;
+	QStringListModel					m_model;
 public:
 	MomentCompute();
 
+	QStringListModel*				Predict			();
 	std::vector<MomentInvariant>&	ComputeMoments	( std::vector<Segment*>& segments );
-
 	std::vector<MomentInvariant>&	GetMoments		()	{ return m_moments; }
+	std::vector<MomentInvariant>&	GetRecognized	()	{ return m_recognized; }
+
+	void							ClearMoments	()	{ m_moments.clear(); }
+
+	QStringListModel*				GetMomentModel	()	{ return &m_model; }
 
 private:
 	std::vector<Segment*>		FilterSegments	( std::vector<Segment*>& segments );
+	bool						CheckCondition	( MomentInvariant& moment );
 
 	MomentInvariant				SegmentMoments	( Segment* segment );
 	cv::Vec2d					SegmentsCenter	( Segment* segment );

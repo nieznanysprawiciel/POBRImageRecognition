@@ -14,6 +14,7 @@ class ImageProcessor;
 class ProcessingList;
 class ImageLogic;
 class SegmentationLogic;
+class MomentCompute;
 
 class MainWindow : public QMainWindow
 {
@@ -34,6 +35,7 @@ private:
 	ProcessingList*		m_processingList;
 	ImageLogic*			m_logic;
 	SegmentationLogic*	m_segmentLogic;
+	MomentCompute*		m_momentCompute;
 
 private slots:
 	void	Processing();
@@ -42,6 +44,9 @@ private slots:
 	void	LoadImage();
 	void	ProcessorCliecked( const QModelIndex& index );
 	void	SegmentClicked( const QModelIndex& index );
+	void	MomentClicked( const QModelIndex& index );
 };
+
+
 
 #endif // MAINWINDOW_H
