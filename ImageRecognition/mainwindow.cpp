@@ -112,7 +112,7 @@ void	MainWindow::Processing()
 
 void	MainWindow::Segmentation()
 {
-	auto& image = m_logic->GetSegmentsImage();
+	auto& image = m_logic->CreateSegmentsImage();
 	m_segmentLogic->MakeSegmentation( image );
 	m_viewer->SetImage( image );
 
@@ -142,6 +142,9 @@ void	MainWindow::SegmentClicked( const QModelIndex& index )
 	auto& boundingBox = segment->GetBoundingBox();
 
 	m_viewer->SetBoundingRect( boundingBox );
+
+	auto& image = m_logic->GetSegmentsImage();
+	m_viewer->SetImage( image );
 }
 
 

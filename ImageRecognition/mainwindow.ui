@@ -84,7 +84,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>320</y>
+          <y>300</y>
           <width>169</width>
           <height>231</height>
          </rect>
@@ -97,13 +97,39 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>300</y>
+          <y>280</y>
           <width>169</width>
           <height>13</height>
          </rect>
         </property>
         <property name="text">
          <string>Lista segmentów</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>540</y>
+          <width>169</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Momenty</string>
+        </property>
+       </widget>
+       <widget class="QListView" name="momentsList">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>560</y>
+          <width>169</width>
+          <height>221</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::DoubleClicked</set>
         </property>
        </widget>
       </widget>

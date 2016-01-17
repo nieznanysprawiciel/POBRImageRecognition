@@ -29,6 +29,8 @@ public:
 	cv::Mat&	GetImage		( unsigned int index );
 	cv::Mat&	GetLastImage	()	{ return m_images.back(); }
 	cv::Mat&	GetSegmentsImage();
+
+	cv::Mat&	CreateSegmentsImage();
 };
 
 #endif // IMAGELOGIC_H

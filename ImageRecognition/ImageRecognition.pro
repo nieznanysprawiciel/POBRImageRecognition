@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     Processors/ChannelToGreyScale.cpp \
     Processors/ConvertToHSL.cpp \
     Segmentation/SegmantationLogic.cpp \
-    Segmentation/Segment.cpp
+    Segmentation/Segment.cpp \
+    Moment/MomentCompute.cpp
 
 HEADERS  += mainwindow.h \
     ImageProcessor.h \
@@ -53,6 +54,7 @@ HEADERS  += mainwindow.h \
     Processors/FakeProcessor.h \
     Processors/ConvertToHSL.h \
     Segmentation/SegmantationLogic.h \
-    Segmentation/Segment.h
+    Segmentation/Segment.h \
+    Moment/MomentCompute.h
 
 FORMS    += mainwindow.ui
