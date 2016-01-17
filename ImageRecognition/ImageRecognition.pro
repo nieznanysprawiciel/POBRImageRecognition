@@ -55,6 +55,7 @@ HEADERS  += mainwindow.h \
     Processors/ConvertToHSL.h \
     Segmentation/SegmantationLogic.h \
     Segmentation/Segment.h \
-    Moment/MomentCompute.h
+    Moment/MomentCompute.h \
+    Moment/MomentDesc.h
 
 FORMS    += mainwindow.ui

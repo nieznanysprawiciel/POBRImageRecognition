@@ -61,23 +61,30 @@ void	MainWindow::InitializeProcessingList()
 
 
 //======================================================//
-//	// Zestaw do wyodrębniania żółtego obszaru
-//	ImageProcessor* HSL = new ConvertToHSL();
-//	m_processingList->AddProcessor( HSL, 0 );
+	// Zestaw do wyodrębniania żółtego obszaru
+	ImageProcessor* HSL = new ConvertToHSL();
+	m_processingList->AddProcessor( HSL, 0 );
 
-//	ImageProcessor* threshold = new Threshold( "Progowanie saturacji i koloru", 40, 0, 255, 110, 255, 0 );
-//	m_processingList->AddProcessor( threshold, 0 );
+	ImageProcessor* threshold = new Threshold( "Progowanie saturacji i koloru", 40, 0, 255, 110, 255, 0 );
+	m_processingList->AddProcessor( threshold, 0 );
+	//
+//======================================================//
+
+
+
+//======================================================//
+//	// Zestaw do wyodrębniania liter
+//	ImageProcessor* convertHSL2 = new ConvertToHSL();
+//	m_processingList->AddProcessor( convertHSL2, 0 );
+
+//	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
+//	m_processingList->AddProcessor( saturationToGrey, 0 );
+
+//	ImageProcessor* satThreshold = new HueThreshold( 0, 110 );
+//	m_processingList->AddProcessor( satThreshold, 0 );
 //	//
 //======================================================//
 
-	ImageProcessor* convertHSL2 = new ConvertToHSL();
-	m_processingList->AddProcessor( convertHSL2, 0 );
-
-	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
-	m_processingList->AddProcessor( saturationToGrey, 0 );
-
-	ImageProcessor* satThreshold = new HueThreshold( 0, 110 );
-	m_processingList->AddProcessor( satThreshold, 0 );
 
 //	ImageProcessor* hueToGrey = new HueToGreyScale();
 //	m_processingList->AddProcessor( hueToGrey, 0 );

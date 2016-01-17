@@ -35,6 +35,15 @@ struct BoundingBox
 			maxY = row;
 	}
 
+	unsigned short GetWidth()
+	{
+		return maxX - minX;
+	}
+
+	unsigned short GetHeight()
+	{
+		return maxY - minY;
+	}
 };
 
 struct Pixel
