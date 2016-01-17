@@ -27,7 +27,7 @@ public:
 	std::vector<MomentInvariant>&	GetMoments		()	{ return m_moments; }
 	std::vector<MomentInvariant>&	GetRecognized	()	{ return m_recognized; }
 
-	void							ClearMoments	()	{ m_moments.clear(); }
+	void							ClearMoments	();
 
 	QStringListModel*				GetMomentModel	()	{ return &m_model; }
 

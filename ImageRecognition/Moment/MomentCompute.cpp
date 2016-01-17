@@ -9,6 +9,16 @@ MomentCompute::MomentCompute()
 }
 
 
+void							MomentCompute::ClearMoments	()
+{
+	m_moments.clear();
+	m_recognized.clear();
+
+	// Clear model
+	QStringList newSegmentsList;
+	m_model.setStringList( newSegmentsList );
+}
+
 std::vector<MomentInvariant>&	MomentCompute::ComputeMoments( std::vector<Segment*>& segments )
 {
 	// Future
@@ -45,22 +55,15 @@ QStringListModel*			MomentCompute::Predict			()
 
 bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
 {
-	if( moment.M1 > 8.057e-08 )
+	if( moment.M1 < 1.094e-07 )
 	{
-		if( moment.M7 < 0.005576 )
+		if( moment.M2 >= 0.02447 )
 		{
-			if( moment.M3 >= 0.003014 )
+			if( moment.M3 < 0.000136 )
 				return true;
 		}
 	}
-	else
-	{
-		if( moment.M2 > 0.02473 )
-		{
-			if( moment.M3 < 0.0001318 )
-				return true;
-		}
-	}
+
 	return false;
 }
 
