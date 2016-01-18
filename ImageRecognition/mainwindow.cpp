@@ -30,13 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	m_state = AppState::Initial;
+
 	m_viewer = new ImageViewer( ui->viewerScrollArea );
 	m_logic = new ImageLogic;
-	m_processingList = new ProcessingList;
+	m_logoProcessingList = new ProcessingList;
+	m_textProcessingList = new ProcessingList;
 	m_segmentLogic = new SegmentationLogic;
 	m_momentCompute = new MomentCompute;
 
-	ui->processorsList1->setModel( m_processingList );
+	ui->processorsList1->setModel( m_logoProcessingList );
 
 	InitializeProcessingList();
 	InitializeSignals();
@@ -49,7 +52,8 @@ MainWindow::~MainWindow()
 
 	delete m_segmentLogic;
 	delete m_viewer;
-	delete m_processingList;
+	delete m_textProcessingList;
+	delete m_logoProcessingList;
 	delete m_logic;
 
 	delete ui;
@@ -73,29 +77,29 @@ void	MainWindow::InitializeProcessingList()
 //======================================================//
 	// Zestaw do wyodrębniania żółtego obszaru
 	ImageProcessor* lowPass = new MedianFilter();
-	m_processingList->AddProcessor( lowPass, 0 );
+	m_logoProcessingList->AddProcessor( lowPass, 0 );
 
 	ImageProcessor* HSL = new ConvertToHSL();
-	m_processingList->AddProcessor( HSL, 0 );
+	m_logoProcessingList->AddProcessor( HSL, 0 );
 
 	ImageProcessor* threshold = new Threshold( "Progowanie saturacji i koloru", 40, 0, 255, 110, 255, 0 );
-	m_processingList->AddProcessor( threshold, 0 );
+	m_logoProcessingList->AddProcessor( threshold, 0 );
 	//
 //======================================================//
 
 
 
 //======================================================//
-//	// Zestaw do wyodrębniania liter
-//	ImageProcessor* convertHSL2 = new ConvertToHSL();
-//	m_processingList->AddProcessor( convertHSL2, 0 );
+	// Zestaw do wyodrębniania liter
+	ImageProcessor* convertHSL2 = new ConvertToHSL();
+	m_textProcessingList->AddProcessor( convertHSL2, 0 );
 
-//	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
-//	m_processingList->AddProcessor( saturationToGrey, 0 );
+	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
+	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
 
-//	ImageProcessor* satThreshold = new HueThreshold( 0, 110 );
-//	m_processingList->AddProcessor( satThreshold, 0 );
-//	//
+	ImageProcessor* satThreshold = new HueThreshold( 0, 110 );
+	m_textProcessingList->AddProcessor( satThreshold, 0 );
+	//
 //======================================================//
 
 
@@ -129,7 +133,7 @@ void	MainWindow::InitializeSignals()
 
 void	MainWindow::Processing()
 {
-	m_logic->ProcessImages( m_processingList );
+	m_logic->ProcessImages( m_textProcessingList );
 	m_viewer->SetImage( m_logic->GetLastImage() );
 }
 

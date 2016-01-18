@@ -173,6 +173,8 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 
 		if( pixY < 0 )
 			continue;
+		if( pixY >= srcImage.rows )
+			continue;
 
 		boundingBox.TryUpdateMinMaxY( pixY );
 

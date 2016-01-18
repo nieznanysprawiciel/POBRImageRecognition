@@ -16,6 +16,16 @@ class ImageLogic;
 class SegmentationLogic;
 class MomentCompute;
 
+
+enum AppState
+{
+	Initial,
+	Processed,
+	Segmented,
+	Recognized
+};
+
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -30,9 +40,12 @@ public:
 private:
 	Ui::MainWindow *ui;
 
+	AppState			m_state;
+
 	ImageViewer*		m_viewer;
 
-	ProcessingList*		m_processingList;
+	ProcessingList*		m_logoProcessingList;
+	ProcessingList*		m_textProcessingList;
 	ImageLogic*			m_logic;
 	SegmentationLogic*	m_segmentLogic;
 	MomentCompute*		m_momentCompute;
