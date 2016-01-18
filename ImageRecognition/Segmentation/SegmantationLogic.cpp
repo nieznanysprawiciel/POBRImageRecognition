@@ -212,7 +212,7 @@ short SegmentationLogic::ExtendLeft( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcIm
 
 		--pixX;
 		if( pixX < 0 )
-			continue;
+			return ++pixX;
 	}
 	return ++pixX;
 }
@@ -232,7 +232,7 @@ short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcI
 
 		++pixX;
 		if( pixX > srcImage.cols )
-			continue;
+			pixX - 1;
 	}
 	return pixX;
 }

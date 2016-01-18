@@ -57,9 +57,9 @@ bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
 {
 	if( moment.M1 < 1.094e-07 )
 	{
-		if( moment.M2 >= 0.02447 )
+		if( moment.M2 >= 0.02424 && moment.M2 < 0.3065 )
 		{
-			if( moment.M3 < 0.000136 )
+			if( moment.M3 < 0.0007278 )
 				return true;
 		}
 	}
