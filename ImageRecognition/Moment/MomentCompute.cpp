@@ -22,7 +22,7 @@ void							MomentCompute::ClearMoments	()
 std::vector<MomentInvariant>&	MomentCompute::ComputeMoments( std::vector<Segment*>& segments )
 {
 	// Future
-	//filteredSegments = FilterSegments( segments );
+	//std::vector<Segment*>& filteredSegments = FilterSegments( segments );
 	std::vector<Segment*>& filteredSegments = segments;
 
 	for( auto segment : filteredSegments )

@@ -72,6 +72,9 @@ void	MainWindow::InitializeProcessingList()
 
 //======================================================//
 	// Zestaw do wyodrębniania żółtego obszaru
+	ImageProcessor* medianFilter = new MedianFilter();
+	m_processingList->AddProcessor( medianFilter, 0 );
+
 	ImageProcessor* HSL = new ConvertToHSL();
 	m_processingList->AddProcessor( HSL, 0 );
 
