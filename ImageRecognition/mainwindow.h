@@ -56,7 +56,8 @@ private slots:
 	void	Moments();
 	void	LoadImage();
 	void	ProcessorCliecked( const QModelIndex& index );
-	void	SegmentClicked( const QModelIndex& index );
+	void	SegmentClicked1( const QModelIndex& index );
+	void	SegmentClicked2( const QModelIndex& index );
 	void	MomentClicked( const QModelIndex& index );
 };
 

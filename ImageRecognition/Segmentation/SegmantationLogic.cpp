@@ -32,9 +32,26 @@ SegmentationLogic::~SegmentationLogic()
 
 void		SegmentationLogic::ClearSegments()
 {
-	for( auto segment : m_segments )
+	for( auto segment : m_segments1 )
 		delete segment;
-	m_segments.clear();
+	m_segments1.clear();
+}
+
+std::vector<Segment*>&		SegmentationLogic::GetSegments( int num )
+{
+	if( num == 0 )
+		return m_segments1;
+	else
+		return m_segments2;
+}
+
+QStringListModel*			SegmentationLogic::GetSegmentsModel	( int num )
+{
+	if( num == 0 )
+		return &m_segmentsModel1;
+	else
+		return &m_segmentsModel2;
+
 }
 
 
@@ -63,11 +80,11 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 			newSegmentsList.append( "Segment" + QString::number( segmentNum ) );
 			m_fillColor = predefinedColors[ segmentNum++ % NUM_PREDEFINED_COLORS ];
 
-			m_segments.push_back( newSegment );
+			m_segments1.push_back( newSegment );
 		}
 	}
 
-	m_segmentsModel.setStringList( newSegmentsList );
+	m_segmentsModel1.setStringList( newSegmentsList );
 
 //	// Test
 //	Pixel seedPixel( 485, 452 );
@@ -82,7 +99,7 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 
 bool		SegmentationLogic::CheckInSegments( Pixel pixel )
 {
-	for( auto segment : m_segments )
+	for( auto segment : m_segments1 )
 	{
 		if( CheckInBoundingBox( pixel, segment->GetBoundingBox() ) )
 		{

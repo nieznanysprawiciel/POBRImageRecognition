@@ -44,5 +44,14 @@ public:
 
 };
 
+class SaturationThreshold : public Threshold
+{
+private:
+public:
+	SaturationThreshold( unsigned char min, unsigned char max )
+	: Threshold( "Progowanie saturacji HSL", 255, 0, max, min, 255, 0 )
+	{}
+
+};
 
 #endif // THRESHOLD_H

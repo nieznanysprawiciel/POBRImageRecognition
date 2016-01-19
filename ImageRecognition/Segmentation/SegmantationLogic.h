@@ -13,20 +13,22 @@ private:
 	unsigned int				m_samplesDensity;
 	cv::Vec3b					m_fillColor;
 
-	std::vector<Segment*>		m_segments;
+	std::vector<Segment*>		m_segments1;
+	std::vector<Segment*>		m_segments2;
 
-	QStringListModel			m_segmentsModel;
+	QStringListModel			m_segmentsModel1;
+	QStringListModel			m_segmentsModel2;
 
 public:
 	SegmentationLogic();
 	virtual ~SegmentationLogic();
 
-	std::vector<Segment*>&		GetSegments()	{ return m_segments; }
+	std::vector<Segment*>&		GetSegments( int );
 	void						ClearSegments();
 
 	virtual void				MakeSegmentation	( cv::Mat& image );
 
-	QStringListModel*			GetSegmentsModel	()	{ return &m_segmentsModel; }
+	QStringListModel*			GetSegmentsModel	( int );
 
 private:
 	bool						CheckInSegments		( Pixel pixel );

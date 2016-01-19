@@ -33,27 +33,103 @@
      <property name="verticalSpacing">
       <number>0</number>
      </property>
+     <item row="0" column="1">
+      <widget class="QScrollArea" name="viewer">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>7</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="viewerScrollArea">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1315</width>
+          <height>787</height>
+         </rect>
+        </property>
+        <zorder>controlGroup</zorder>
+       </widget>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QGroupBox" name="controlGroup">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>1</horstretch>
+         <horstretch>2</horstretch>
          <verstretch>1</verstretch>
         </sizepolicy>
        </property>
        <property name="title">
         <string/>
        </property>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QListView" name="segmentsList1">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>11</y>
-          <width>171</width>
-          <height>261</height>
+          <y>360</y>
+          <width>169</width>
+          <height>231</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="editTriggers">
+         <set>QAbstractItemView::DoubleClicked</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>340</y>
+          <width>169</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Lista segmentów</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>600</y>
+          <width>169</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Rozpoznane obiekty</string>
+        </property>
+       </widget>
+       <widget class="QListView" name="momentsList">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>620</y>
+          <width>169</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::DoubleClicked</set>
+        </property>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>371</width>
+          <height>331</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
@@ -62,7 +138,32 @@
           </widget>
          </item>
          <item>
-          <widget class="QListView" name="processorsList1"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Baner</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Tekst</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QListView" name="processorsList1"/>
+           </item>
+           <item>
+            <widget class="QListView" name="processorsList2"/>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QPushButton" name="processImage">
@@ -87,79 +188,17 @@
          </item>
         </layout>
        </widget>
-       <widget class="QListView" name="segmentsList">
+       <widget class="QListView" name="segmentsList2">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>300</y>
+          <x>190</x>
+          <y>360</y>
           <width>169</width>
           <height>231</height>
          </rect>
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::DoubleClicked</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>280</y>
-          <width>169</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Lista segmentów</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>540</y>
-          <width>169</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Momenty</string>
-        </property>
-       </widget>
-       <widget class="QListView" name="momentsList">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>560</y>
-          <width>169</width>
-          <height>221</height>
-         </rect>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::DoubleClicked</set>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QScrollArea" name="viewer">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>8</horstretch>
-         <verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="viewerScrollArea">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>1503</width>
-          <height>787</height>
-         </rect>
         </property>
        </widget>
       </widget>

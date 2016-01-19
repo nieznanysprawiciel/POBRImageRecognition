@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_momentCompute = new MomentCompute;
 
 	ui->processorsList1->setModel( m_logoProcessingList );
+	ui->processorsList2->setModel( m_textProcessingList );
 
 	InitializeProcessingList();
 	InitializeSignals();
@@ -48,7 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 	ui->processorsList1->setModel( nullptr );
-	ui->segmentsList->setModel( m_segmentLogic->GetSegmentsModel() );
+	ui->segmentsList1->setModel( nullptr );
+	ui->segmentsList2->setModel( nullptr );
 
 	delete m_segmentLogic;
 	delete m_viewer;
@@ -97,10 +99,10 @@ void	MainWindow::InitializeProcessingList()
 	ImageProcessor* convertHSL2 = new ConvertToHSL();
 	m_textProcessingList->AddProcessor( convertHSL2, 0 );
 
-	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
-	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
+//	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
+//	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
 
-	ImageProcessor* satThreshold = new LuminanceThreshold( 0, 95 );
+	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
 	m_textProcessingList->AddProcessor( satThreshold, 0 );
 	//
 //======================================================//
@@ -128,7 +130,8 @@ void	MainWindow::InitializeSignals()
 	connect( ui->momentButton, SIGNAL( clicked() ), this, SLOT( Moments()) );
 	connect( ui->actionLoad, SIGNAL( triggered() ), this, SLOT( LoadImage() ) );
 	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked(QModelIndex) ) );
-	connect( ui->segmentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked(QModelIndex) ) );
+	connect( ui->segmentsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked1(QModelIndex) ) );
+	connect( ui->segmentsList2, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked2(QModelIndex) ) );
 	connect( ui->momentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( MomentClicked(QModelIndex) ) );
 
 }
@@ -146,14 +149,15 @@ void	MainWindow::Segmentation()
 	m_segmentLogic->MakeSegmentation( image );
 	m_viewer->SetImage( image );
 
-	ui->segmentsList->setModel( m_segmentLogic->GetSegmentsModel() );
+	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( 0 ) );
+	ui->segmentsList2->setModel( m_segmentLogic->GetSegmentsModel( 1 ) );
 }
 
 void	MainWindow::Moments()
 {
 	m_momentCompute->ClearMoments();
 
-	auto& segments = m_segmentLogic->GetSegments();
+	auto& segments = m_segmentLogic->GetSegments( 0 );
 	m_momentCompute->ComputeMoments( segments );
 	auto model = m_momentCompute->Predict();
 
@@ -178,9 +182,21 @@ void	MainWindow::ProcessorCliecked( const QModelIndex& index )
 	m_viewer->SetImage( image );
 }
 
-void	MainWindow::SegmentClicked( const QModelIndex& index )
+void	MainWindow::SegmentClicked1( const QModelIndex& index )
 {
-	auto& segmentsVec = m_segmentLogic->GetSegments();
+	auto& segmentsVec = m_segmentLogic->GetSegments( 0 );
+	auto& segment = segmentsVec[ index.row() ];
+	auto& boundingBox = segment->GetBoundingBox();
+
+	m_viewer->SetBoundingRect( boundingBox );
+
+	auto& image = m_logic->GetSegmentsImage();
+	m_viewer->SetImage( image );
+}
+
+void	MainWindow::SegmentClicked2( const QModelIndex& index )
+{
+	auto& segmentsVec = m_segmentLogic->GetSegments( 1 );
 	auto& segment = segmentsVec[ index.row() ];
 	auto& boundingBox = segment->GetBoundingBox();
 
@@ -195,7 +211,7 @@ void	MainWindow::MomentClicked( const QModelIndex& index )
 	auto& moments = m_momentCompute->GetRecognized();
 	auto segmentNum = moments[ index.row() ].SegmentNum;
 
-	auto& segmentsVec = m_segmentLogic->GetSegments();
+	auto& segmentsVec = m_segmentLogic->GetSegments( 0 );
 	auto& segment = segmentsVec[ segmentNum ];
 	auto& boundingBox = segment->GetBoundingBox();
 
