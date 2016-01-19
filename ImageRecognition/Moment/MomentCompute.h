@@ -21,12 +21,12 @@ private:
 	//std::vector<MomentInvariant>		m_recognized;
 
 	QStringListModel					m_modelClassified;
-	//QStringListModel					m_modelRecogniezed;
+	QStringListModel					m_modelRecognized;
 public:
 	MomentCompute();
 
 	QStringListModel*				Predict			();
-	QStringListModel*				Recogni			();
+	QStringListModel*				Recognize		( std::vector<Segment*>& segments );
 
 
 	std::vector<MomentInvariant>&	ComputeMoments	( std::vector<Segment*>& segments );
@@ -34,14 +34,16 @@ public:
 	std::vector<MomentInvariant>&	GetClassified	()	{ return m_classified; }
 	//std::vector<MomentInvariant>&	GetRecognized	()	{ return m_recognized; }
 
+
 	void							ClearMoments	();
 
-	QStringListModel*				GetRecogniezedModel	()	{ return &m_modelClassified; }
-	//QStringListModel*				GetRecogniezedModel	()	{ return &m_modelRecogniezed; }
+	QStringListModel*				GetClassifiedModel	()	{ return &m_modelClassified; }
+	QStringListModel*				GetRecogniezedModel	()	{ return &m_modelRecognized; }
 
 private:
 	std::vector<Segment*>		FilterSegments	( std::vector<Segment*>& segments );
 	bool						CheckCondition	( MomentInvariant& moment );
+	bool						CheckAreaCondition	( double bannerArea, double textArea );
 
 	MomentInvariant				SegmentMoments	( Segment* segment );
 	cv::Vec2d					SegmentsCenter	( Segment* segment );

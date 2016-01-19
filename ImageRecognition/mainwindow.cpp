@@ -180,6 +180,10 @@ void	MainWindow::Recognition()
 
 	auto model = m_segmentLogic->GetSegmentsModel( LOGO_TEXT );
 	ui->segmentsList2->setModel( model );
+
+	auto& textSegments = m_segmentLogic->GetSegments( LOGO_TEXT );
+	m_momentCompute->Recognize( textSegments );
+	ui->recognizedList->setModel( m_momentCompute->GetRecogniezedModel() );
 }
 
 void	MainWindow::LoadImage()

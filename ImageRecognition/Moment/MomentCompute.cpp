@@ -69,7 +69,35 @@ bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
 }
 
 
+QStringListModel*			MomentCompute::Recognize		( std::vector<Segment*>& segments )
+{
+	QStringList newSegmentsList;
 
+	for( auto& moment : m_classified )
+	{
+		double textArea = 0.0;
+		double bannerArea = moment.Area;
+
+		for( auto segment : segments )
+		{
+			if( moment.SegmentNum == segment->GetSegNummer() )
+				textArea += segment->GetRegion().size();
+		}
+		if( CheckAreaCondition( bannerArea, textArea ) )
+			newSegmentsList.append( QString( "Segment" ) + QString::number( moment.SegmentNum ));
+	}
+
+	m_modelRecognized.setStringList( newSegmentsList );
+	return &m_modelRecognized;
+}
+
+bool						MomentCompute::CheckAreaCondition	( double bannerArea, double textArea )
+{
+	double ratio = textArea / bannerArea;
+	if( ratio > 0.1 && ratio < 0.7 )
+		return true;
+	return false;
+}
 
 
 
@@ -100,6 +128,7 @@ MomentInvariant					MomentCompute::SegmentMoments	( Segment* segment )
 	Moment centralMoments = Moments( pixels, center );
 
 	newMoment.Center = center;
+	newMoment.Area = pixels.size();		// Area is number of pixels
 	newMoment.M1 = ComputeM1( centralMoments, m00 );
 	newMoment.M2 = ComputeM2( centralMoments, m00 );
 	newMoment.M3 = ComputeM3( centralMoments, m00 );
