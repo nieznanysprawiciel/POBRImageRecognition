@@ -5,12 +5,14 @@
 #include "Segment.h"
 #include <vector>
 #include <QStringListModel>
+#include "Moment/MomentDesc.h"
 
 
 class SegmentationLogic
 {
 private:
 	unsigned int				m_samplesDensity;
+	unsigned int				m_samplesDensityText;
 	cv::Vec3b					m_fillColor;
 
 	std::vector<Segment*>		m_segments1;
@@ -25,8 +27,10 @@ public:
 
 	std::vector<Segment*>&		GetSegments( int );
 	void						ClearSegments();
+	void						ClearTextSegments();
 
 	virtual void				MakeSegmentation	( cv::Mat& image );
+	void						MakeSegmentationText( cv::Mat& image, std::vector<MomentInvariant>& moments );
 
 	QStringListModel*			GetSegmentsModel	( int );
 

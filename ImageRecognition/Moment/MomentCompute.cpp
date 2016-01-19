@@ -12,11 +12,12 @@ MomentCompute::MomentCompute()
 void							MomentCompute::ClearMoments	()
 {
 	m_moments.clear();
-	m_recognized.clear();
+	m_classified.clear();
 
 	// Clear model
 	QStringList newSegmentsList;
-	m_model.setStringList( newSegmentsList );
+	m_modelClassified.setStringList( newSegmentsList );
+	//m_modelRecogniezed.setStringList( newSegmentsList );
 }
 
 std::vector<MomentInvariant>&	MomentCompute::ComputeMoments( std::vector<Segment*>& segments )
@@ -45,12 +46,12 @@ QStringListModel*			MomentCompute::Predict			()
 		if( CheckCondition( moment ) )
 		{
 			newSegmentsList.append( QString( "Segment" ) + QString::number( moment.SegmentNum ));
-			m_recognized.push_back( moment );
+			m_classified.push_back( moment );
 		}
 	}
 
-	m_model.setStringList( newSegmentsList );
-	return &m_model;
+	m_modelClassified.setStringList( newSegmentsList );
+	return &m_modelClassified;
 }
 
 bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
@@ -66,6 +67,9 @@ bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
 
 	return false;
 }
+
+
+
 
 
 

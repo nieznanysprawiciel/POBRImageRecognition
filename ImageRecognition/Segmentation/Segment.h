@@ -44,6 +44,22 @@ struct BoundingBox
 	{
 		return maxY - minY;
 	}
+
+	bool CheckIfContains( int x, int y )
+	{
+		if( x >= minX && x <= maxX && y >= minY && y <= maxY )
+			return true;
+		return false;
+	}
+
+	bool CheckIfContains( const BoundingBox& box2 )
+	{
+		if( !CheckIfContains( box2.minX, box2.minY ) )
+			return false;
+		if( !CheckIfContains( box2.maxX, box2.maxY ) )
+			return false;
+		return true;
+	}
 };
 
 struct Pixel

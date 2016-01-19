@@ -10,6 +10,7 @@ cv::Vec3b predefinedColors[ NUM_PREDEFINED_COLORS ];
 SegmentationLogic::SegmentationLogic()
 {
 	m_samplesDensity = 15;
+	m_samplesDensityText = 4;
 
 	int R = 0;
 	int G = 100;
@@ -35,6 +36,13 @@ void		SegmentationLogic::ClearSegments()
 	for( auto segment : m_segments1 )
 		delete segment;
 	m_segments1.clear();
+}
+
+void		SegmentationLogic::ClearTextSegments()
+{
+	for( auto segment : m_segments2 )
+		delete segment;
+	m_segments2.clear();
 }
 
 std::vector<Segment*>&		SegmentationLogic::GetSegments( int num )
@@ -86,14 +94,46 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 
 	m_segmentsModel1.setStringList( newSegmentsList );
 
-//	// Test
-//	Pixel seedPixel( 485, 452 );
-//	Segment* newSegment = BuildSegment( seedPixel, source );
-//	m_segments.push_back( newSegment );
+}
 
-//	seedPixel = Pixel( 542, 485 );
-//	newSegment = BuildSegment( seedPixel, source );
-//	m_segments.push_back( newSegment );
+void		SegmentationLogic::MakeSegmentationText( cv::Mat& image, std::vector<MomentInvariant>& moments )
+{
+	ClearTextSegments();
+	cv::Mat_<cv::Vec3b> source = image;
+	int segmentNum = 0;
+	QStringList newSegmentsList;
+
+	// Chodzimy tylko po obszarach wewnątrz bounding boxa
+	for( auto& moment : moments )
+	{
+		Segment* bannerSegment = m_segments1[ moment.SegmentNum ];
+		auto& boundingBox = bannerSegment->GetBoundingBox();
+
+		for( int y = ( boundingBox.minY + m_samplesDensityText ) / 2; y < boundingBox.maxY; y += m_samplesDensityText )
+		{
+			for( int x = ( boundingBox.minX + m_samplesDensityText ) / 2; x < boundingBox.maxX; x += m_samplesDensityText )
+			{
+				cv::Vec3b color = source( y ,x );
+				Pixel seedPixel( x, y );
+
+				if( !IsObject( color ) )
+					continue;
+				if( CheckInSegments( seedPixel ) )
+					continue;
+
+				Segment* newSegment = BuildSegment( seedPixel, source );
+				newSegment->SetSegNummer( segmentNum );
+
+				newSegmentsList.append( "Segment" + QString::number( segmentNum ) );
+				m_fillColor = predefinedColors[ segmentNum++ % NUM_PREDEFINED_COLORS ];
+
+				m_segments2.push_back( newSegment );
+			}
+		}
+
+	}
+
+	m_segmentsModel2.setStringList( newSegmentsList );
 }
 
 

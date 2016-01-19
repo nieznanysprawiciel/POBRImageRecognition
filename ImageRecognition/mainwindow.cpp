@@ -133,6 +133,7 @@ void	MainWindow::InitializeSignals()
 	connect( ui->processImage, SIGNAL( clicked() ), this, SLOT( Processing() ) );
 	connect( ui->segmentationButton, SIGNAL( clicked() ), this, SLOT( Segmentation() ) );
 	connect( ui->momentButton, SIGNAL( clicked() ), this, SLOT( Moments()) );
+	connect( ui->recognition, SIGNAL( clicked() ), this, SLOT( Recognition()) );
 	connect( ui->actionLoad, SIGNAL( triggered() ), this, SLOT( LoadImage() ) );
 	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked1(QModelIndex) ) );
 	connect( ui->processorsList2, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked2(QModelIndex) ) );
@@ -156,7 +157,6 @@ void	MainWindow::Segmentation()
 	m_viewer->SetImage( image );
 
 	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( LOGO_BANNER ) );
-	ui->segmentsList2->setModel( m_segmentLogic->GetSegmentsModel( LOGO_TEXT ) );
 }
 
 void	MainWindow::Moments()
@@ -170,6 +170,16 @@ void	MainWindow::Moments()
 	ui->momentsList->setModel( model );
 
 	//MomentsToCSV( "moments.csv", m_momentCompute->GetMoments() );
+}
+
+void	MainWindow::Recognition()
+{
+	auto& image = m_logic->CreateSegmentsImage( LOGO_TEXT );
+	auto& preClassified = m_momentCompute->GetMoments();
+	m_segmentLogic->MakeSegmentationText( image, preClassified );
+
+	auto model = m_segmentLogic->GetSegmentsModel( LOGO_TEXT );
+	ui->segmentsList2->setModel( model );
 }
 
 void	MainWindow::LoadImage()
@@ -220,7 +230,7 @@ void	MainWindow::SegmentClicked2( const QModelIndex& index )
 
 void	MainWindow::MomentClicked( const QModelIndex& index )
 {
-	auto& moments = m_momentCompute->GetRecognized();
+	auto& moments = m_momentCompute->GetClassified();
 	auto segmentNum = moments[ index.row() ].SegmentNum;
 
 	auto& segmentsVec = m_segmentLogic->GetSegments( LOGO_BANNER );
@@ -231,6 +241,11 @@ void	MainWindow::MomentClicked( const QModelIndex& index )
 
 	auto& image = m_logic->GetSourceImage();
 	m_viewer->SetImage( image );
+}
+
+void	SegmentText()
+{
+
 }
 
 
