@@ -20,7 +20,12 @@
 #include <string>
 #include <fstream>
 
+
 void MomentsToCSV( const std::string& fileName, std::vector<MomentInvariant>& moments );
+
+#define LOGO_COMMON 0
+#define LOGO_BANNER 1
+#define LOGO_TEXT 2
 
 
 
@@ -79,13 +84,13 @@ void	MainWindow::InitializeProcessingList()
 //======================================================//
 	// Zestaw do wyodrębniania żółtego obszaru
 	ImageProcessor* lowPass = new MedianFilter();
-	m_logoProcessingList->AddProcessor( lowPass, 0 );
+	m_logoProcessingList->AddProcessor( lowPass, LOGO_COMMON );
 
 	ImageProcessor* HSL = new ConvertToHSL();
-	m_logoProcessingList->AddProcessor( HSL, 0 );
+	m_logoProcessingList->AddProcessor( HSL, LOGO_COMMON );
 
 	ImageProcessor* threshold = new Threshold( "Progowanie saturacji i koloru", 40, 0, 255, 110, 255, 0 );
-	m_logoProcessingList->AddProcessor( threshold, 1 );
+	m_logoProcessingList->AddProcessor( threshold, LOGO_BANNER );
 	//
 //======================================================//
 
@@ -94,16 +99,16 @@ void	MainWindow::InitializeProcessingList()
 //======================================================//
 	// Zestaw do wyodrębniania liter
 	ImageProcessor* median = new MedianFilter();
-	m_textProcessingList->AddProcessor( median, 0 );
+	m_textProcessingList->AddProcessor( median, LOGO_COMMON );
 
 	ImageProcessor* convertHSL2 = new ConvertToHSL();
-	m_textProcessingList->AddProcessor( convertHSL2, 0 );
+	m_textProcessingList->AddProcessor( convertHSL2, LOGO_COMMON );
 
 //	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
 //	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
 
 	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
-	m_textProcessingList->AddProcessor( satThreshold, 2 );
+	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
 	//
 //======================================================//
 
@@ -141,24 +146,24 @@ void	MainWindow::InitializeSignals()
 void	MainWindow::Processing()
 {
 	m_logic->ProcessImages( m_logoProcessingList, m_textProcessingList );
-	m_viewer->SetImage( m_logic->GetLastImage( 1 ) );
+	m_viewer->SetImage( m_logic->GetLastImage( LOGO_BANNER ) );
 }
 
 void	MainWindow::Segmentation()
 {
-	auto& image = m_logic->CreateSegmentsImage( 1 );
+	auto& image = m_logic->CreateSegmentsImage( LOGO_BANNER );
 	m_segmentLogic->MakeSegmentation( image );
 	m_viewer->SetImage( image );
 
-	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( 1 ) );
-	ui->segmentsList2->setModel( m_segmentLogic->GetSegmentsModel( 2 ) );
+	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( LOGO_BANNER ) );
+	ui->segmentsList2->setModel( m_segmentLogic->GetSegmentsModel( LOGO_TEXT ) );
 }
 
 void	MainWindow::Moments()
 {
 	m_momentCompute->ClearMoments();
 
-	auto& segments = m_segmentLogic->GetSegments( 0 );
+	auto& segments = m_segmentLogic->GetSegments( LOGO_BANNER );
 	m_momentCompute->ComputeMoments( segments );
 	auto model = m_momentCompute->Predict();
 
@@ -179,37 +184,37 @@ void	MainWindow::LoadImage()
 
 void	MainWindow::ProcessorCliecked1( const QModelIndex& index )
 {
-	auto& image = m_logic->GetImage( index.row(), 1 );
+	auto& image = m_logic->GetImage( index.row(), LOGO_BANNER );
 	m_viewer->SetImage( image );
 }
 
 void	MainWindow::ProcessorCliecked2( const QModelIndex& index )
 {
-	auto& image = m_logic->GetImage( index.row(), 2 );
+	auto& image = m_logic->GetImage( index.row(), LOGO_TEXT );
 	m_viewer->SetImage( image );
 }
 
 void	MainWindow::SegmentClicked1( const QModelIndex& index )
 {
-	auto& segmentsVec = m_segmentLogic->GetSegments( 0 );
+	auto& segmentsVec = m_segmentLogic->GetSegments( LOGO_BANNER );
 	auto& segment = segmentsVec[ index.row() ];
 	auto& boundingBox = segment->GetBoundingBox();
 
 	m_viewer->SetBoundingRect( boundingBox );
 
-	auto& image = m_logic->GetSegmentsImage( 1 );
+	auto& image = m_logic->GetSegmentsImage( LOGO_BANNER );
 	m_viewer->SetImage( image );
 }
 
 void	MainWindow::SegmentClicked2( const QModelIndex& index )
 {
-	auto& segmentsVec = m_segmentLogic->GetSegments( 1 );
+	auto& segmentsVec = m_segmentLogic->GetSegments( LOGO_TEXT );
 	auto& segment = segmentsVec[ index.row() ];
 	auto& boundingBox = segment->GetBoundingBox();
 
 	m_viewer->SetBoundingRect( boundingBox );
 
-	auto& image = m_logic->GetSegmentsImage( 2 );
+	auto& image = m_logic->GetSegmentsImage( LOGO_TEXT );
 	m_viewer->SetImage( image );
 }
 
@@ -218,7 +223,7 @@ void	MainWindow::MomentClicked( const QModelIndex& index )
 	auto& moments = m_momentCompute->GetRecognized();
 	auto segmentNum = moments[ index.row() ].SegmentNum;
 
-	auto& segmentsVec = m_segmentLogic->GetSegments( 0 );
+	auto& segmentsVec = m_segmentLogic->GetSegments( LOGO_BANNER );
 	auto& segment = segmentsVec[ segmentNum ];
 	auto& boundingBox = segment->GetBoundingBox();
 

@@ -39,7 +39,7 @@ void		SegmentationLogic::ClearSegments()
 
 std::vector<Segment*>&		SegmentationLogic::GetSegments( int num )
 {
-	if( num == 0 )
+	if( num == 1 )
 		return m_segments1;
 	else
 		return m_segments2;
@@ -47,7 +47,7 @@ std::vector<Segment*>&		SegmentationLogic::GetSegments( int num )
 
 QStringListModel*			SegmentationLogic::GetSegmentsModel	( int num )
 {
-	if( num == 0 )
+	if( num == 1 )
 		return &m_segmentsModel1;
 	else
 		return &m_segmentsModel2;

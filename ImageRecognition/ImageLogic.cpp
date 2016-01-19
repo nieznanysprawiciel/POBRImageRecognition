@@ -68,12 +68,20 @@ bool		ImageLogic::LoadImage		( const std::string& fileName )
 	m_commonImages[ 0 ] = cv::imread( fileName );
 
 	unsigned int imagesSize = m_commonImages.size();
+	unsigned int imagesSize1 = m_path1.size();
+	unsigned int imagesSize2 = m_path2.size();
 	if( imagesSize == 1 )
 		return true;
 
-	// Stwórz odpowiednią ilość obrazów odpowiedniej wielkości.
+	// Usuń obecne obrazy
 	m_commonImages.erase( m_commonImages.begin() + 1, m_commonImages.end() );
+	m_path1.erase( m_path1.begin(), m_path1.end() );
+	m_path2.erase( m_path2.begin(), m_path2.end() );
+
+	// Przealokuj wszystkie stworzone do tej pory obrazy, żeby pasowały rozmiarami
 	AllocateImages( imagesSize, 0 );
+	AllocateImages( imagesSize1, 1 );
+	AllocateImages( imagesSize2, 2 );
 
 	return true;
 }
@@ -111,7 +119,8 @@ cv::Mat&	ImageLogic::CreateSegmentsImage( int path )
 {
 	auto& lastImage = GetLastImage( path );
 
-	assert( path == 0 );
+	assert( path != 0 );
+	assert( path <= 2 );
 
 	if( path == 1)
 	{
