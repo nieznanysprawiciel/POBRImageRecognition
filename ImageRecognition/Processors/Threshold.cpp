@@ -29,9 +29,9 @@ void Threshold::Process( cv::Mat& srcImage, cv::Mat& destImage )
 		cv::Mat_<cv::Vec3b> source = srcImage;
 		cv::Mat_<cv::Vec3b> destination = destImage;
 
-		for (int j = 0; j < srcImage.cols; ++j)
+		for ( int i = 0; i < srcImage.rows; ++i )
 		{
-			for (int i = 0; i < srcImage.rows; ++i)
+			for ( int j = 0; j < srcImage.cols; ++j )
 			{
 				cv::Vec3b lastValue = source(i, j);
 				if( lastValue[ 0 ] >= m_minB && lastValue[ 0 ] <= m_maxB

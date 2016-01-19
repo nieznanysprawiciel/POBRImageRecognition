@@ -35,9 +35,9 @@ void		MedianFilter::Process( cv::Mat& srcImage, cv::Mat& destImage )
 		std::vector<cv::Vec3b> colors;
 		colors.resize( 9 );
 
-		for ( int j = 1; j < srcImage.cols - 1; ++j  )
+		for ( int i = 1; i < srcImage.rows - 1; ++i )
 		{
-			for (int i = 1; i < srcImage.rows - 1; ++i )
+			for ( int j = 1; j < srcImage.cols - 1; ++j )
 			{
 				colors[0] = source( i - 1, j - 1 );
 				colors[1] = source( i    , j - 1 );
