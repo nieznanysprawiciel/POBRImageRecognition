@@ -122,12 +122,18 @@ void		SegmentationLogic::MakeSegmentationText( cv::Mat& image, std::vector<Momen
 					continue;
 
 				Segment* newSegment = BuildSegment( seedPixel, source );
-				newSegment->SetSegNummer( segmentNum );
+				newSegment->SetSegNummer( moment.SegmentNum );
 
-				newSegmentsList.append( "Segment" + QString::number( segmentNum ) );
-				m_fillColor = predefinedColors[ segmentNum++ % NUM_PREDEFINED_COLORS ];
 
-				m_segments2.push_back( newSegment );
+				if( boundingBox.CheckIfContains( newSegment->GetBoundingBox() ) )
+				{
+					newSegmentsList.append( "Segment" + QString::number( segmentNum ) );
+					m_fillColor = predefinedColors[ segmentNum++ % NUM_PREDEFINED_COLORS ];
+
+					m_segments2.push_back( newSegment );
+				}
+				else
+					delete newSegment;
 			}
 		}
 

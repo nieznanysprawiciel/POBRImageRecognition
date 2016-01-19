@@ -175,7 +175,7 @@ void	MainWindow::Moments()
 void	MainWindow::Recognition()
 {
 	auto& image = m_logic->CreateSegmentsImage( LOGO_TEXT );
-	auto& preClassified = m_momentCompute->GetMoments();
+	auto& preClassified = m_momentCompute->GetClassified();
 	m_segmentLogic->MakeSegmentationText( image, preClassified );
 
 	auto model = m_segmentLogic->GetSegmentsModel( LOGO_TEXT );

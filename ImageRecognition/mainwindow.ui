@@ -91,7 +91,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Lista segmentów</string>
+         <string>Lista segmentów - banery</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_3">
@@ -232,6 +232,19 @@
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::DoubleClicked</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_7">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>340</y>
+          <width>169</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Lista segmentów - tekst</string>
         </property>
        </widget>
       </widget>
