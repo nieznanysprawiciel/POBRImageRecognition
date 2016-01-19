@@ -34,4 +34,15 @@ public:
 
 };
 
+class LuminanceThreshold : public Threshold
+{
+private:
+public:
+	LuminanceThreshold( unsigned char min, unsigned char max )
+	: Threshold( "Progowanie jasności HSL", max, min, 255, 0, 255, 0 )
+	{}
+
+};
+
+
 #endif // THRESHOLD_H

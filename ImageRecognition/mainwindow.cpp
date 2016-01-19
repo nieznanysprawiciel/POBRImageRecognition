@@ -91,13 +91,16 @@ void	MainWindow::InitializeProcessingList()
 
 //======================================================//
 	// Zestaw do wyodrębniania liter
+	ImageProcessor* median = new MedianFilter();
+	m_textProcessingList->AddProcessor( median, 0 );
+
 	ImageProcessor* convertHSL2 = new ConvertToHSL();
 	m_textProcessingList->AddProcessor( convertHSL2, 0 );
 
 	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
 	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
 
-	ImageProcessor* satThreshold = new HueThreshold( 0, 110 );
+	ImageProcessor* satThreshold = new LuminanceThreshold( 0, 95 );
 	m_textProcessingList->AddProcessor( satThreshold, 0 );
 	//
 //======================================================//
