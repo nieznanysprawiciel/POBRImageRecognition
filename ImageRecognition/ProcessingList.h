@@ -12,6 +12,7 @@ class ProcessingList : public QAbstractItemModel
 	Q_OBJECT
 private:
 	std::vector<ImageProcessor*>	m_processors;
+	int								m_commonProc;
 public:
 	explicit ProcessingList(QObject *parent = 0);
 	~ProcessingList();
@@ -31,6 +32,7 @@ public:
 
 
 	std::vector<ImageProcessor*>&		GetProcessors()	{ return m_processors; }
+	int									GetNumCommonProc();
 };
 
 #endif // PROCESSINGLIST_H

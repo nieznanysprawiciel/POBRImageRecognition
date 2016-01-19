@@ -6,6 +6,7 @@ ProcessingList::ProcessingList(QObject *parent) :
 	QAbstractItemModel(parent)
 {
 	m_processors.push_back( new FakeProcessor );
+	m_commonProc = 1;
 }
 
 ProcessingList::~ProcessingList()
@@ -59,10 +60,15 @@ int				ProcessingList::rowCount	( const QModelIndex& parent ) const
 bool			ProcessingList::AddProcessor	( ImageProcessor* processor, unsigned int listNumber )
 {
 	// Mamy na razie tylko jedną listę.
-	if( listNumber != 0 )
-		return false;
+	if( listNumber == 0 && m_commonProc == m_processors.size() )
+		m_commonProc++;
 
 	m_processors.push_back( processor );
 	return true;
+}
+
+int				ProcessingList::GetNumCommonProc()
+{
+	return m_commonProc;
 }
 

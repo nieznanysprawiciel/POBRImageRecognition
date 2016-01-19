@@ -85,7 +85,7 @@ void	MainWindow::InitializeProcessingList()
 	m_logoProcessingList->AddProcessor( HSL, 0 );
 
 	ImageProcessor* threshold = new Threshold( "Progowanie saturacji i koloru", 40, 0, 255, 110, 255, 0 );
-	m_logoProcessingList->AddProcessor( threshold, 0 );
+	m_logoProcessingList->AddProcessor( threshold, 1 );
 	//
 //======================================================//
 
@@ -103,7 +103,7 @@ void	MainWindow::InitializeProcessingList()
 //	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
 
 	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
-	m_textProcessingList->AddProcessor( satThreshold, 0 );
+	m_textProcessingList->AddProcessor( satThreshold, 2 );
 	//
 //======================================================//
 
@@ -129,7 +129,8 @@ void	MainWindow::InitializeSignals()
 	connect( ui->segmentationButton, SIGNAL( clicked() ), this, SLOT( Segmentation() ) );
 	connect( ui->momentButton, SIGNAL( clicked() ), this, SLOT( Moments()) );
 	connect( ui->actionLoad, SIGNAL( triggered() ), this, SLOT( LoadImage() ) );
-	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked(QModelIndex) ) );
+	connect( ui->processorsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked1(QModelIndex) ) );
+	connect( ui->processorsList2, SIGNAL( clicked(QModelIndex) ), this, SLOT( ProcessorCliecked2(QModelIndex) ) );
 	connect( ui->segmentsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked1(QModelIndex) ) );
 	connect( ui->segmentsList2, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked2(QModelIndex) ) );
 	connect( ui->momentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( MomentClicked(QModelIndex) ) );
@@ -139,18 +140,18 @@ void	MainWindow::InitializeSignals()
 
 void	MainWindow::Processing()
 {
-	m_logic->ProcessImages( m_textProcessingList );
-	m_viewer->SetImage( m_logic->GetLastImage() );
+	m_logic->ProcessImages( m_logoProcessingList, m_textProcessingList );
+	m_viewer->SetImage( m_logic->GetLastImage( 1 ) );
 }
 
 void	MainWindow::Segmentation()
 {
-	auto& image = m_logic->CreateSegmentsImage();
+	auto& image = m_logic->CreateSegmentsImage( 1 );
 	m_segmentLogic->MakeSegmentation( image );
 	m_viewer->SetImage( image );
 
-	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( 0 ) );
-	ui->segmentsList2->setModel( m_segmentLogic->GetSegmentsModel( 1 ) );
+	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( 1 ) );
+	ui->segmentsList2->setModel( m_segmentLogic->GetSegmentsModel( 2 ) );
 }
 
 void	MainWindow::Moments()
@@ -176,9 +177,15 @@ void	MainWindow::LoadImage()
 	m_viewer->UnsetRect();
 }
 
-void	MainWindow::ProcessorCliecked( const QModelIndex& index )
+void	MainWindow::ProcessorCliecked1( const QModelIndex& index )
 {
-	auto& image = m_logic->GetImage( index.row() );
+	auto& image = m_logic->GetImage( index.row(), 1 );
+	m_viewer->SetImage( image );
+}
+
+void	MainWindow::ProcessorCliecked2( const QModelIndex& index )
+{
+	auto& image = m_logic->GetImage( index.row(), 2 );
 	m_viewer->SetImage( image );
 }
 
@@ -190,7 +197,7 @@ void	MainWindow::SegmentClicked1( const QModelIndex& index )
 
 	m_viewer->SetBoundingRect( boundingBox );
 
-	auto& image = m_logic->GetSegmentsImage();
+	auto& image = m_logic->GetSegmentsImage( 1 );
 	m_viewer->SetImage( image );
 }
 
@@ -202,7 +209,7 @@ void	MainWindow::SegmentClicked2( const QModelIndex& index )
 
 	m_viewer->SetBoundingRect( boundingBox );
 
-	auto& image = m_logic->GetSegmentsImage();
+	auto& image = m_logic->GetSegmentsImage( 2 );
 	m_viewer->SetImage( image );
 }
 
