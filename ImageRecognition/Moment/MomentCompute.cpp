@@ -72,9 +72,19 @@ bool		CheckBoundingBoxes( BoundingBox& box1, int width, int height )
 {
 	double boxRatioX = (double)box1.GetWidth() / (double)width;
 	//double boxRatioY = (double)box1.GetHeight() / (double)height;
+	double widthHeightRatioBanner = (double)width / (double)height;
+	double correctionFactor = 2.7 / widthHeightRatioBanner;
 
-	if( boxRatioX > 0.6 /*&& boxRatioY > 0.5*/ )
+	double widthHeightRatio = (double)box1.GetWidth() / (double)box1.GetHeight();
+
+	widthHeightRatio = widthHeightRatio * correctionFactor;
+
+
+	if( widthHeightRatio > 2.6 )
 		return true;
+
+//	if( boxRatioX > 0.6 /*&& boxRatioY > 0.5*/ )
+//		return true;
 	return false;
 }
 
@@ -112,7 +122,7 @@ QStringListModel*			MomentCompute::Recognize		( std::vector<Segment*>& segments 
 bool						MomentCompute::CheckAreaCondition	( double bannerArea, double textArea )
 {
 	double ratio = textArea / bannerArea;
-	if( ratio > 0.07 && ratio < 0.6 )
+	if( ratio > 0.08 && ratio < 0.6 )
 		return true;
 	return false;
 }

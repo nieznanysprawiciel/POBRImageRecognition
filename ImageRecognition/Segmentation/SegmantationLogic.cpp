@@ -79,7 +79,7 @@ void		SegmentationLogic::MakeSegmentation( cv::Mat& image )
 
 			if( !IsObject( color ) )
 				continue;
-			if( CheckInSegments( seedPixel ) )
+			if( CheckInSegments( seedPixel, 1 ) )
 				continue;
 
 			Segment* newSegment = BuildSegment( seedPixel, source );
@@ -118,7 +118,7 @@ void		SegmentationLogic::MakeSegmentationText( cv::Mat& image, std::vector<Momen
 
 				if( !IsObject( color ) )
 					continue;
-				if( CheckInSegments( seedPixel ) )
+				if( CheckInSegments( seedPixel, 2 ) )
 					continue;
 
 				Segment* newSegment = BuildSegment( seedPixel, source );
@@ -143,9 +143,11 @@ void		SegmentationLogic::MakeSegmentationText( cv::Mat& image, std::vector<Momen
 }
 
 
-bool		SegmentationLogic::CheckInSegments( Pixel pixel )
+bool		SegmentationLogic::CheckInSegments( Pixel pixel, int segList )
 {
-	for( auto segment : m_segments1 )
+	auto& segmentsList = GetSegments( segList );
+
+	for( auto segment : segmentsList )
 	{
 		if( CheckInBoundingBox( pixel, segment->GetBoundingBox() ) )
 		{

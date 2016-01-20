@@ -35,7 +35,7 @@ public:
 	QStringListModel*			GetSegmentsModel	( int );
 
 private:
-	bool						CheckInSegments		( Pixel pixel );
+	bool						CheckInSegments		(Pixel pixel , int segList);
 	bool						CheckInBoundingBox	( Pixel pixel, BoundingBox& box );
 	bool						IsObject			( cv::Vec3b color );
 
