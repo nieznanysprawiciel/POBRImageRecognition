@@ -58,13 +58,23 @@ bool						MomentCompute::CheckCondition	( MomentInvariant& moment )
 {
 	if( moment.M1 < 1.094e-07 )
 	{
-		if( moment.M2 >= 0.02424 && moment.M2 < 0.3065 )
+		if( moment.M2 >= 0.02324 && moment.M2 < 0.3065 )
 		{
 			if( moment.M3 < 0.0007278 )
 				return true;
 		}
 	}
 
+	return false;
+}
+
+bool		CheckBoundingBoxes( BoundingBox& box1, int width, int height )
+{
+	double boxRatioX = (double)box1.GetWidth() / (double)width;
+	//double boxRatioY = (double)box1.GetHeight() / (double)height;
+
+	if( boxRatioX > 0.6 /*&& boxRatioY > 0.5*/ )
+		return true;
 	return false;
 }
 
@@ -77,13 +87,21 @@ QStringListModel*			MomentCompute::Recognize		( std::vector<Segment*>& segments 
 	{
 		double textArea = 0.0;
 		double bannerArea = moment.Area;
+		BoundingBox commonBox;
 
 		for( auto segment : segments )
 		{
 			if( moment.SegmentNum == segment->GetSegNummer() )
+			{
 				textArea += segment->GetRegion().size();
+				commonBox.TryUpdateMinMaxX( segment->GetBoundingBox().minX );
+				commonBox.TryUpdateMinMaxX( segment->GetBoundingBox().maxX );
+				commonBox.TryUpdateMinMaxY( segment->GetBoundingBox().minY );
+				commonBox.TryUpdateMinMaxY( segment->GetBoundingBox().maxY );
+			}
 		}
-		if( CheckAreaCondition( bannerArea, textArea ) )
+		if( CheckAreaCondition( bannerArea, textArea ) && CheckBoundingBoxes( commonBox, moment.Width, moment.Height ) )
+		//if( CheckBoundingBoxes( commonBox, moment.Width, moment.Height ) )
 			newSegmentsList.append( QString( "Segment" ) + QString::number( moment.SegmentNum ));
 	}
 
@@ -94,7 +112,7 @@ QStringListModel*			MomentCompute::Recognize		( std::vector<Segment*>& segments 
 bool						MomentCompute::CheckAreaCondition	( double bannerArea, double textArea )
 {
 	double ratio = textArea / bannerArea;
-	if( ratio > 0.1 && ratio < 0.7 )
+	if( ratio > 0.07 && ratio < 0.6 )
 		return true;
 	return false;
 }
@@ -129,6 +147,8 @@ MomentInvariant					MomentCompute::SegmentMoments	( Segment* segment )
 
 	newMoment.Center = center;
 	newMoment.Area = pixels.size();		// Area is number of pixels
+	newMoment.Width = segment->GetBoundingBox().GetWidth();
+	newMoment.Height = segment->GetBoundingBox().GetHeight();
 	newMoment.M1 = ComputeM1( centralMoments, m00 );
 	newMoment.M2 = ComputeM2( centralMoments, m00 );
 	newMoment.M3 = ComputeM3( centralMoments, m00 );

@@ -1,7 +1,7 @@
 #ifndef CHANNELTOGREYSCALE_H
 #define CHANNELTOGREYSCALE_H
 
-#include "ImageProcessor.h"
+#include "../ImageProcessor.h"
 
 enum class ColorChannel
 {

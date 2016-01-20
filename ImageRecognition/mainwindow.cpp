@@ -110,7 +110,7 @@ void	MainWindow::InitializeProcessingList()
 //	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
 //	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
 
-	ImageProcessor* satThreshold = new Threshold( "Progowanie saturacji i jasności", 255, 0, 95, 0, 120, 0 );
+	ImageProcessor* satThreshold = new Threshold( "Progowanie saturacji i jasności", 255, 0, 130, 0, 120, 0 );
 	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
 	//
 //======================================================//
@@ -155,7 +155,7 @@ void	MainWindow::Processing()
 	m_logic->ProcessImages( m_logoProcessingList, m_textProcessingList );
 	m_viewer->SetImage( m_logic->GetLastImage( LOGO_BANNER ) );
 
-	m_state == AppState::Processed;
+	m_state = AppState::Processed;
 }
 
 void	MainWindow::Segmentation()
@@ -170,7 +170,7 @@ void	MainWindow::Segmentation()
 
 	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( LOGO_BANNER ) );
 
-	m_state == AppState::Segmented;
+	m_state = AppState::Segmented;
 }
 
 void	MainWindow::Moments()
@@ -205,7 +205,7 @@ void	MainWindow::Recognition()
 	m_momentCompute->Recognize( textSegments );
 	ui->recognizedList->setModel( m_momentCompute->GetRecogniezedModel() );
 
-	m_state == AppState::Recognized;
+	m_state = AppState::Recognized;
 }
 
 void	MainWindow::LoadImage()

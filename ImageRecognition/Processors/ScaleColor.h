@@ -1,7 +1,7 @@
 #ifndef SCALECOLOR_H
 #define SCALECOLOR_H
 
-#include "ImageProcessor.h"
+#include "../ImageProcessor.h"
 
 
 class ScaleColor : public ImageProcessor

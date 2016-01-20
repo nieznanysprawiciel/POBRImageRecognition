@@ -5,7 +5,7 @@
 #include "Segment.h"
 #include <vector>
 #include <QStringListModel>
-#include "Moment/MomentDesc.h"
+#include "../Moment/MomentDesc.h"
 
 
 class SegmentationLogic

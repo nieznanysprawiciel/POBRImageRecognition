@@ -1,7 +1,7 @@
 #ifndef CONVERTTOHSL_H
 #define CONVERTTOHSL_H
 
-#include "ImageProcessor.h"
+#include "../ImageProcessor.h"
 
 
 

@@ -1,7 +1,7 @@
 #ifndef THRESHOLD_H
 #define THRESHOLD_H
 
-#include "ImageProcessor.h"
+#include "../ImageProcessor.h"
 
 
 class Threshold : public ImageProcessor

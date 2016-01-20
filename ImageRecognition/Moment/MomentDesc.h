@@ -21,6 +21,8 @@ struct MomentInvariant
 	cv::Vec2i	Center;
 	int			SegmentNum;
 	int			Area;
+	int			Width;
+	int			Height;
 
 	friend std::ostream& operator<<( std::ostream& stream, const MomentInvariant moment );
 	std::ostream& Header( std::ostream& stream );

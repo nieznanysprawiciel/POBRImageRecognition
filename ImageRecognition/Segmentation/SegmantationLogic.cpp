@@ -10,7 +10,7 @@ cv::Vec3b predefinedColors[ NUM_PREDEFINED_COLORS ];
 SegmentationLogic::SegmentationLogic()
 {
 	m_samplesDensity = 15;
-	m_samplesDensityText = 4;
+	m_samplesDensityText = 1;
 
 	int R = 0;
 	int G = 100;
@@ -252,6 +252,8 @@ void SegmentationLogic::FloodFill( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcImag
 			auto prevLeftPix = leftPix;
 			leftPix = ExtendLeft( Pixel( prevLeftPix, pixY ), srcImage, segment );
 			rightPix = ExtendRight( Pixel( prevLeftPix, pixY ), srcImage, segment );
+			if( rightPix >= srcImage.cols )
+				rightPix = srcImage.cols - 1;
 
 			if( leftPix < currentLine.leftPixelX || rightPix > currentLine.rightPixelX )
 				linesToFill.push( PixelSpan( leftPix, rightPix, pixY - currentLine.direction, -currentLine.direction ) );
@@ -298,9 +300,9 @@ short SegmentationLogic::ExtendRight( Pixel seedPixel, cv::Mat_<cv::Vec3b>& srcI
 
 		++pixX;
 		if( pixX >= srcImage.cols )
-			return pixX - 1;
+			return pixX;
 	}
-	return pixX - 1;
+	return pixX;
 }
 
 short SegmentationLogic::FindNextSpan		( Pixel begin, cv::Mat_<cv::Vec3b>& srcImage, short maxX )
