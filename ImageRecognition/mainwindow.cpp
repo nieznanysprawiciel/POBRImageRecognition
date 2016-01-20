@@ -107,7 +107,10 @@ void	MainWindow::InitializeProcessingList()
 //	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
 //	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
 
-	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
+//	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
+//	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
+
+	ImageProcessor* satThreshold = new Threshold( "Progowanie saturacji i jasności", 255, 0, 95, 0, 120, 0 );
 	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
 	//
 //======================================================//
@@ -146,21 +149,35 @@ void	MainWindow::InitializeSignals()
 
 void	MainWindow::Processing()
 {
+	if( m_state == AppState::Initial )
+		return;
+
 	m_logic->ProcessImages( m_logoProcessingList, m_textProcessingList );
 	m_viewer->SetImage( m_logic->GetLastImage( LOGO_BANNER ) );
+
+	m_state == AppState::Processed;
 }
 
 void	MainWindow::Segmentation()
 {
+
+	if( m_state == AppState::Initial )
+		return;
+
 	auto& image = m_logic->CreateSegmentsImage( LOGO_BANNER );
 	m_segmentLogic->MakeSegmentation( image );
 	m_viewer->SetImage( image );
 
 	ui->segmentsList1->setModel( m_segmentLogic->GetSegmentsModel( LOGO_BANNER ) );
+
+	m_state == AppState::Segmented;
 }
 
 void	MainWindow::Moments()
 {
+	if( m_state == AppState::Initial )
+		return;
+
 	m_momentCompute->ClearMoments();
 
 	auto& segments = m_segmentLogic->GetSegments( LOGO_BANNER );
@@ -174,6 +191,9 @@ void	MainWindow::Moments()
 
 void	MainWindow::Recognition()
 {
+	if( m_state == AppState::Initial )
+		return;
+
 	auto& image = m_logic->CreateSegmentsImage( LOGO_TEXT );
 	auto& preClassified = m_momentCompute->GetClassified();
 	m_segmentLogic->MakeSegmentationText( image, preClassified );
@@ -184,16 +204,29 @@ void	MainWindow::Recognition()
 	auto& textSegments = m_segmentLogic->GetSegments( LOGO_TEXT );
 	m_momentCompute->Recognize( textSegments );
 	ui->recognizedList->setModel( m_momentCompute->GetRecogniezedModel() );
+
+	m_state == AppState::Recognized;
 }
 
 void	MainWindow::LoadImage()
 {
-	QString filePath = QFileDialog::getOpenFileName( this, tr("Open File"), "", tr("Images (*.png *.tiff *.jpg)") );
+	QFileDialog fileDialog( this );
+	fileDialog.setNameFilter(tr("Images (*.png *.tiff *.jpg)"));
+	fileDialog.setFileMode( QFileDialog::ExistingFile );
 
-	std::string path = filePath.toStdString();
-	m_logic->LoadImage( path );
-	m_viewer->SetImage( m_logic->GetSourceImage() );
-	m_viewer->UnsetRect();
+	if( fileDialog.exec() )
+	{
+		auto fileNames = fileDialog.selectedFiles();
+		QString filePath = fileNames.at( 0 );
+
+
+		std::string path = filePath.toStdString();
+		m_logic->LoadImage( path );
+		m_viewer->SetImage( m_logic->GetSourceImage() );
+		m_viewer->UnsetRect();
+
+		m_state = AppState::Loaded;
+	}
 }
 
 void	MainWindow::ProcessorCliecked1( const QModelIndex& index )

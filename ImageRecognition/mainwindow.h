@@ -20,6 +20,7 @@ class MomentCompute;
 enum AppState
 {
 	Initial,
+	Loaded,
 	Processed,
 	Segmented,
 	Recognized
