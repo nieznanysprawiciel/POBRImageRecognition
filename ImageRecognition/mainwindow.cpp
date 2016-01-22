@@ -87,7 +87,7 @@ void	MainWindow::InitializeProcessingList()
 	m_logoProcessingList->AddProcessor( lowPass, LOGO_COMMON );
 
 	ImageProcessor* HSL = new ConvertToHSL();
-	m_logoProcessingList->AddProcessor( HSL, LOGO_COMMON );
+	m_logoProcessingList->AddProcessor( HSL, LOGO_BANNER );
 
 	ImageProcessor* threshold = new Threshold( "Progowanie saturacji i koloru", 40, 0, 255, 110, 255, 0 );
 	m_logoProcessingList->AddProcessor( threshold, LOGO_BANNER );
@@ -101,8 +101,8 @@ void	MainWindow::InitializeProcessingList()
 	ImageProcessor* median = new MedianFilter();
 	m_textProcessingList->AddProcessor( median, LOGO_COMMON );
 
-	ImageProcessor* convertHSL2 = new ConvertToHSL();
-	m_textProcessingList->AddProcessor( convertHSL2, LOGO_COMMON );
+//	ImageProcessor* convertHSL2 = new ConvertToHSL();
+//	m_textProcessingList->AddProcessor( convertHSL2, LOGO_COMMON );
 
 //	ImageProcessor* saturationToGrey = new SaturationToGreyScale();
 //	m_textProcessingList->AddProcessor( saturationToGrey, 0 );
@@ -110,7 +110,10 @@ void	MainWindow::InitializeProcessingList()
 //	ImageProcessor* satThreshold = new SaturationThreshold( 0, 95 );
 //	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
 
-	ImageProcessor* satThreshold = new Threshold( "Progowanie saturacji i jasności", 255, 0, 130, 0, 120, 0 );
+//	ImageProcessor* satThreshold = new Threshold( "Progowanie saturacji i jasności", 255, 0, 130, 0, 120, 0 );
+//	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
+
+	ImageProcessor* satThreshold = new Threshold( "Progowanie RGB", 140, 52, 116, 30, 112, 18 );
 	m_textProcessingList->AddProcessor( satThreshold, LOGO_TEXT );
 	//
 //======================================================//
@@ -143,6 +146,7 @@ void	MainWindow::InitializeSignals()
 	connect( ui->segmentsList1, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked1(QModelIndex) ) );
 	connect( ui->segmentsList2, SIGNAL( clicked(QModelIndex) ), this, SLOT( SegmentClicked2(QModelIndex) ) );
 	connect( ui->momentsList, SIGNAL( clicked(QModelIndex) ), this, SLOT( MomentClicked(QModelIndex) ) );
+	connect( ui->recognizedList, SIGNAL( clicked(QModelIndex) ), this, SLOT( RecognizedClicked(QModelIndex) ) );
 
 }
 
@@ -279,6 +283,22 @@ void	MainWindow::MomentClicked( const QModelIndex& index )
 	auto& image = m_logic->GetSourceImage();
 	m_viewer->SetImage( image );
 }
+
+void	MainWindow::RecognizedClicked( const QModelIndex& index )
+{
+	auto& moments = m_momentCompute->GetRecognized();
+	auto segmentNum = moments[ index.row() ].SegmentNum;
+
+	auto& segmentsVec = m_segmentLogic->GetSegments( LOGO_BANNER );
+	auto& segment = segmentsVec[ segmentNum ];
+	auto& boundingBox = segment->GetBoundingBox();
+
+	m_viewer->SetBoundingRect( boundingBox );
+
+	auto& image = m_logic->GetSourceImage();
+	m_viewer->SetImage( image );
+}
+
 
 void	SegmentText()
 {

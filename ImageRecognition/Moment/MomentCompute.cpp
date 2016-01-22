@@ -13,6 +13,7 @@ void							MomentCompute::ClearMoments	()
 {
 	m_moments.clear();
 	m_classified.clear();
+	m_recognized.clear();
 
 	// Clear model
 	QStringList newSegmentsList;
@@ -80,7 +81,7 @@ bool		CheckBoundingBoxes( BoundingBox& box1, int width, int height )
 	widthHeightRatio = widthHeightRatio * correctionFactor;
 
 
-	if( widthHeightRatio > 2.6 )
+	if( widthHeightRatio > 2.5 )
 		return true;
 
 //	if( boxRatioX > 0.6 /*&& boxRatioY > 0.5*/ )
@@ -112,7 +113,10 @@ QStringListModel*			MomentCompute::Recognize		( std::vector<Segment*>& segments 
 		}
 		if( CheckAreaCondition( bannerArea, textArea ) && CheckBoundingBoxes( commonBox, moment.Width, moment.Height ) )
 		//if( CheckBoundingBoxes( commonBox, moment.Width, moment.Height ) )
+		{
+			m_recognized.push_back( moment );
 			newSegmentsList.append( QString( "Segment" ) + QString::number( moment.SegmentNum ));
+		}
 	}
 
 	m_modelRecognized.setStringList( newSegmentsList );
@@ -122,7 +126,7 @@ QStringListModel*			MomentCompute::Recognize		( std::vector<Segment*>& segments 
 bool						MomentCompute::CheckAreaCondition	( double bannerArea, double textArea )
 {
 	double ratio = textArea / bannerArea;
-	if( ratio > 0.08 && ratio < 0.6 )
+	if( ratio > 0.07 && ratio < 0.6 )
 		return true;
 	return false;
 }

@@ -18,7 +18,7 @@ private:
 
 	std::vector<MomentInvariant>		m_moments;
 	std::vector<MomentInvariant>		m_classified;
-	//std::vector<MomentInvariant>		m_recognized;
+	std::vector<MomentInvariant>		m_recognized;
 
 	QStringListModel					m_modelClassified;
 	QStringListModel					m_modelRecognized;
@@ -32,7 +32,7 @@ public:
 	std::vector<MomentInvariant>&	ComputeMoments	( std::vector<Segment*>& segments );
 	std::vector<MomentInvariant>&	GetMoments		()	{ return m_moments; }
 	std::vector<MomentInvariant>&	GetClassified	()	{ return m_classified; }
-	//std::vector<MomentInvariant>&	GetRecognized	()	{ return m_recognized; }
+	std::vector<MomentInvariant>&	GetRecognized	()	{ return m_recognized; }
 
 
 	void							ClearMoments	();
