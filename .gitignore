@@ -6,3 +6,6 @@ ProjectRelease/result
 ProjectRelease/*csv
 ProjectRelease/*.exe
 *.exp
+ProjectRelease/
+ProjectDeploy/
+ProjectDeploy.zip
